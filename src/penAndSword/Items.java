@@ -20,5 +20,5 @@ abstract class Items {
 	{
 	
 	}
-	//pol
+	//politics
 }
