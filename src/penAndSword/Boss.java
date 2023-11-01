@@ -8,7 +8,7 @@ public class Boss extends Enemy{
 	private int bossLevel;
 	private String bossName;
 	
-	//empty boss contructor
+	//empty boss constructor
 	public Boss()
 	{
 		super();
