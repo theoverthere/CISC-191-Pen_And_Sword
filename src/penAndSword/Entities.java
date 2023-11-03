@@ -5,18 +5,28 @@ import java.util.*;
 abstract class Entities {
 	//fields 
 	private int health;
-	private int armor;
+	private String name;
 	private int damage;
 	private int money;
 	private int experience;
-	private int level;
+	private String level;
+	private int armor;
 	
 	//empty constructor for values that all entities must have
 	public Entities()
 	{
 		this.health = 0;
+		this.damage = 0;
+		this.level = "0";
 		this.armor = 0;
-		this.damage = 0;	
+	}
+	
+	public Entities(String name, int health, int damage, String level) 
+	{
+		this.name = name;
+		this.health = health;
+		this.damage = damage;
+		this.level = level;
 	}
 	
 	//abstract method for combat, will calculate damage done during one turn of combat

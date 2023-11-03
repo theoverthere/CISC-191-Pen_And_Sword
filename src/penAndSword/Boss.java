@@ -1,33 +1,46 @@
 package penAndSword;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+
 public class Boss extends Enemy{
 	//fields
 	private int bossHealth;
 	private int bossArmor;
 	private int bossDamage;
-	private int bossLevel;
+	private String bossLevel;
 	private String bossName;
 	
-	//empty boss constructor
-	public Boss()
+	//
+	private static List<Boss> bossList = new ArrayList<>();
+	
+	public Boss() 
 	{
 		super();
 	}
 	
-	//Parameterized boss constructor
-	public Boss(int newBossHealth, int newBossArmor, int newBossDamage, int newBossLevel, String newBossName)
+	//Constructor to allow creation of boss objects
+	public Boss(int newBossHealth, int newBossDamage, String newBossLevel, String newBossName)
 	{
-		this.bossHealth = newBossHealth;
-		this.bossArmor = newBossArmor;
-		this.bossDamage = newBossDamage;
-		this.bossLevel = newBossLevel;
-		this.bossName = newBossName;
+		super(newBossDamage, newBossHealth, newBossName, newBossLevel);
+		bossName = newBossName;
+		bossHealth = newBossHealth;
+		bossDamage = newBossDamage;
+		bossLevel = newBossLevel;
+		bossList.add(this);
 	}
 	
 	//toString method to display boss object properties
 	public String toString()
 	{
 		return 	"Name: " + bossName + " Health: " + bossHealth + " Damage: " + bossDamage + " Level: "+ bossLevel;
+	}
+	
+	public static void main(String[] args) 
+	{
+		Boss gorgonTheDestroyer = new Boss(10, 10, "5", "Gorgon the Destroyer");
+		System.out.println(bossList.get(0));
 	}
 
 }

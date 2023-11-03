@@ -10,13 +10,8 @@ public class Enemy extends Entities{
 	private String enemyName;
 	private String enemyLevel;
 	
-	//field for trivia checker:
-	private static String newTrivia;
-	
 	//instantiate data structure to hold created enemies and sort by level
 	private static Hashtable<String, List<Enemy>> theHorde = new Hashtable<>();
-	//instantiate data structure to hold trivia questions
-	private static Hashtable<String, List<String>> triviaQuestions = new Hashtable<>();
 	
 	/*
 	 * Purpose: adds enemy objects to proper place in "theHorde" hashtable. 
@@ -39,6 +34,7 @@ public class Enemy extends Entities{
 		}
 	}
 	
+	//copyList constructor
 	private List<Enemy> copyList(List<Enemy> list) 
 	{
 		List<Enemy> copyList = (List<Enemy>) ((ArrayList<Enemy>) list).clone();
@@ -49,17 +45,17 @@ public class Enemy extends Entities{
 	public Enemy()
 	{
 		super();
-		this.enemyHealth = 0;
-		this.enemyDamage = 0;
 	}
 	
 	//Parameterized constructor, receives enemy health, damage, name, and level
 	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, String newEnemyLevel)
 	{
-		this.enemyHealth = newEnemyHealth;
-		this.enemyDamage = newEnemyDamage;
-		this.enemyName = newEnemyName;
-		this.enemyLevel = newEnemyLevel;
+		super(newEnemyName, newEnemyHealth, newEnemyDamage, newEnemyLevel);
+		enemyName = newEnemyName;
+		enemyHealth = newEnemyHealth;
+		enemyDamage = newEnemyDamage;
+		enemyLevel = newEnemyLevel;
+		this.addToHorde(newEnemyLevel, this);
 	}
 	
 	//toString method to print enemy object properties
@@ -68,28 +64,17 @@ public class Enemy extends Entities{
 		return 	"Name: " + enemyName + " Health: " + enemyHealth + " Damage: " + enemyDamage + " Level: "+ enemyLevel;
 	}
 	
-//	//trivia answers
-//	public static void triviaAnswers()
-//	{
-//		triviaAnswers.add("1891");
-//	}
-//
-//	// trivia answer checker
-//	public static void triviaAnswerChecker() 
-//	{
-//		triviaAnswers.contains(newTrivia) ; 
-//		System.out.println("wrong answer");
-//	}
-	
 	public static void main(String[] args)
 	{
 		Enemy goblin = new Enemy(1, 1, "goblin", "1");
 		Enemy troll = new Enemy(5, 2, "troll", "1");
+		Enemy fireArcher = new Enemy(2, 5, "Fire Archer", "2");
 		
-		goblin.addToHorde("1", goblin);
-		troll.addToHorde("1", troll);
 		
-		System.out.print(theHorde.get("1").get(0));
+		System.out.println(theHorde.get("2").get(0).toString());
+		Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
+		System.out.println(Trivia.getQuestion(0));
+		//System.out.println(Items.armor.get("Leather Armor"));
 		
 		
 	}
