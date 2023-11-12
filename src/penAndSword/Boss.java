@@ -39,7 +39,11 @@ public class Boss extends Enemy{
 		Boss.addBoss(this);
 	}
 	
-	static Boss gorgonTheDestroyer = new Boss(10, 10, 5, "Gorgon the Destroyer");
+	static Boss gorgonTheDestroyer = new Boss(20, 10, 1, "Gorgon the Destroyer");
+	static Boss levelTwoBoss = new Boss(30,15, 2, "boss2");
+	static Boss levelThreeBoss = new Boss(40, 20, 3, "boss3");
+	static Boss levelFourBoss = new Boss(50, 25, 4, "boss4");
+	static Boss levelFiveBoss = new Boss(60, 30, 5, "boss5");
 	
 	public static Boss getBoss(int index) 
 	{

@@ -1,17 +1,19 @@
 package penAndSword;
-
 import java.util.*;
 
+/*
+ * The player class is responsible for tracking the stats and inventory of the player.
+ */
 public class Player extends Entities {
 //fields
-	private int playerHealth;
-	private int playerExp;
-	private int playerArmor;
-	private int playerDamage; // slash weapon
-	private int playerMoney;
-	private int playerLevel;
+	private static int playerHealth;
+	private static int playerExp;
+	private static int playerArmor;
+	private static int playerDamage; // slash weapon
+	private static int playerMoney;
+	private static int playerLevel;
 	//data structure to hold items that the player finds on their journey
-	private List<String> playerInventory = new ArrayList<>();
+	private static List<Items> playerInventory = new ArrayList<>();
 
 	
 	
@@ -25,79 +27,82 @@ public class Player extends Entities {
 		this.playerMoney = 0;
 		this.playerLevel = 1;
 	}
+	
+	public static Player player1 = new Player();
 
 //gets player health
-	public int getPlayerHealth() {
-		return this.playerHealth;
+	public static int getPlayerHealth() {
+		return player1.playerHealth;
 	}
 
 //takes or gives player health
 	public void changePlayerHealth(int incoming) {
-		this.playerHealth += incoming;
+		player1.playerHealth += incoming;
 	}
 
 //gets players EXP
-	public int getplayerExp() {
-		return this.playerExp;
+	public static int getplayerExp() {
+		return player1.playerExp;
 	}
 
 //adds incoming player exp to player exp
 	public void changePlayerExp(int newPlayerExp) {
-		this.playerExp += newPlayerExp;
+		player1.playerExp += newPlayerExp;
 	}
 
 //gets player armor
-	public int getPlayerArmor() {
-		return this.playerArmor;
+	public static int getPlayerArmor() {
+		return player1.playerArmor;
 	}
 
 //replaces the player armor with incoming armor
 	public void changePlayerArmor(int newPlayerArmor) { // replaces armor does not increase it
-		this.playerArmor = newPlayerArmor;
+		player1.playerArmor = newPlayerArmor;
 	}
 
 //returns player money
-	public int getPlayerMoney() {
-		return this.playerMoney;
+	public static int getPlayerMoney() {
+		return player1.playerMoney;
 	}
 
 //changes player money
 	public void changePlayerMoney(int newPlayerMoney) {
-		this.playerMoney += newPlayerMoney;
+		player1.playerMoney += newPlayerMoney;
 	}
 
 	// gets player damage
-	public int returnPlayerDamage() {
-		return this.playerDamage;
+	public int getPlayerDamage() {
+		return player1.playerDamage;
 	}
 
 	// replaces player damage with new player damage
 	public void changePlayerDamage(int newPlayerDamage) { // replaces damage does not increase it
-		this.playerDamage = newPlayerDamage;
+		player1.playerDamage = newPlayerDamage;
 	}
 
 	public static int getPlayerLevel() {
-		return this.playerLevel;
+		return player1.playerLevel;
 	}
 
 	// replaces player damage with new player damage
 	public void changePlayerLevel() { // replaces damage does not increase it
-		this.playerLevel++;
+		player1.playerLevel++;
 
 	}
-	public void addToInventory(String newItem) {
+	public void addToInventory(Items newItem) {
 
 		playerInventory.add(newItem);
 	}
-	public void replaceitem(String newItem,int placement) 
+	public void replaceitem(Items newItem,int placement) 
 	{
 		 playerInventory.set(placement, newItem);
 	}
 	
-	//public String printInventory() 
+	public static List<Items> getInventory() 
 	{
-		 //return System.out.println(this.playerInventory);
-	} 
+		return playerInventory;
+	}
+	
 	public static void  main(String[] args)
 		{
 			//printInventory();

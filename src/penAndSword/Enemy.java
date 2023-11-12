@@ -46,16 +46,6 @@ public class Enemy extends Entities{
 		return copyList;
 	}
 	
-	//area to create new enemy objects
-	static Enemy goblin = new Enemy(1, 1, "goblin", 1);
-	static Enemy troll = new Enemy(5, 2, "troll", 1);
-	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2);
-	
-	public static int getHordeLength(int key) 
-	{
-		return theHorde.get(key).size();
-	}
-	
 	//empty constructor to create enemies
 	public Enemy()
 	{
@@ -71,6 +61,16 @@ public class Enemy extends Entities{
 		enemyDamage = newEnemyDamage;
 		enemyLevel = newEnemyLevel;
 		Enemy.addToHorde(newEnemyLevel, this);
+	}
+	
+	//area to create new enemy objects
+	static Enemy goblin = new Enemy(1, 1, "goblin", 1);
+	static Enemy troll = new Enemy(5, 2, "troll", 1);
+	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2);
+	
+	public static int getHordeLength(int key) 
+	{
+		return theHorde.get(key).size();
 	}
 	
 	//toString method to print enemy object properties

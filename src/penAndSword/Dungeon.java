@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Dungeon
 {
+	//fields
 	private static int numEnemies;
 	private static int numLoot;
 	private static int numCoins;
@@ -16,8 +17,6 @@ public class Dungeon
 	private Enemy enemy2;
 	private Enemy enemy3;
 	private Enemy enemy4;
-//	Item loot1;
-//	Item
 	private static int maxCoinRange = 10;
 	private static int minCoinRange = 1;
 	private int coinRange = maxCoinRange - minCoinRange + 1;
@@ -26,13 +25,16 @@ public class Dungeon
 	
 	//array list to hold opening lines upon entering a dungeon level
 	private static List<String> openingText = new ArrayList<>();
-	private static String s1 = "You enter a dark room, rats scurry past your feet as the door opens";
+	private static String s1 = "You enter a dark room, rats scurry past your feet as the door opens. Various metal instruments can be seen hanging from the ceiling, glimmering as the light from the doorway enters the room. This appears to be some kind of dungeon";
+	private static String s2 = "As you open the door ahead of you, you are blinded by the outside light! Your vision begins to normalize and you see that you are in a courtyard, trees everywhere. You spy another doorway at the opposite end of the courtyard";
+	private static String s3 = "The heavy door creaks open, revealing a long hallway ahead of you. The passageway is lined with suits of armor and armaments belonging to those who must've built this place";
+	private static String s4 = "";
 	
+	//static modifier to add lines to openingText array list
 	static 
 	{
 		openingText.add(s1);
 	}
-	
 	
 	/*
 	 * Purpose: this method will be used to generate a new dungeon each time it is called. 
@@ -100,21 +102,24 @@ public class Dungeon
 		}
 	}
 	
-	public void addLine(String line) 
-	{
-		openingText.add(line);
-	}
-	
+	/*
+	 * Purpose: The generateDungeon method uses the parameters passed by the dungeonLevel method to decide what exactly is spawned into each new dungeon
+	 * 
+	 * @param: int playerLevel, int enemies, int loot, boolean coins
+	 * @return: String "dungeon text"
+	 */
+	@SuppressWarnings("null")
 	public static String generateDungeon(int playerLevel, int enemies, int loot, boolean coins) 
 	{
 		//create an array that will hold the enemies in the room
-		Enemy[] enemy = null;
+		//Enemy[] enemy;
+		List<Enemy> dungeonEnemies = new ArrayList<>();
 		Items[] item = null;
 		Random random = new Random();
 		if(coins = true) {
 			for(int i = 0; i <= enemies; i++) 
 			{
-				enemy[i] = Enemy.theHorde.get(playerLevel).get(random.nextInt(0, Enemy.getHordeLength(playerLevel)));
+				dungeonEnemies.add(Enemy.theHorde.get(playerLevel).get(random.nextInt(0, Enemy.getHordeLength(playerLevel)-1)));
 			}
 			for(int i= 0; i <= loot; i++) 
 			{
@@ -127,7 +132,7 @@ public class Dungeon
 		{
 			for(int i = 0; i <= enemies; i++) 
 			{
-				enemy[i] = Enemy.theHorde.get(playerLevel).get(random.nextInt(0, Enemy.getHordeLength(playerLevel)));
+				dungeonEnemies.add(Enemy.theHorde.get(playerLevel).get(random.nextInt(0, Enemy.getHordeLength(playerLevel)-1)));
 			}
 			for(int i= 0; i <= loot; i++) 
 			{
@@ -135,8 +140,27 @@ public class Dungeon
 			}
 			return "Dungeon";
 		}
-		
-}
+	
+	}
+	
+	public static Boss bossLevel(int playerLevel) 
+	{
+		switch(playerLevel) 
+		{
+			case 1:
+				return Boss.getBoss(playerLevel - 1);
+			case 2: 
+				return Boss.getBoss(playerLevel - 1);
+			case 3:
+				return Boss.getBoss(playerLevel - 1);
+			case 4:
+				return Boss.getBoss(playerLevel - 1);
+			case 5:
+				return Boss.getBoss(playerLevel - 1);
+		}
+		return null;
+	}
+	
 	public void main(String[] args) 
 	{
 		System.out.println(openingText);

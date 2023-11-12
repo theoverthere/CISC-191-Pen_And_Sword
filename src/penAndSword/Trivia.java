@@ -42,6 +42,7 @@ public class Trivia
 	}
 	//area to create trivia objects
 	static Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
+	static Trivia q1 = new Trivia("What walks on four legs in the morning, two legs in the afternoon, and three legs in the evening?", "A Man", "A chicken", "A robot", "A dog", 1);
 	
 	/*
 	 * Purpose: adds a new trivia question to the list
