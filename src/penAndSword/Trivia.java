@@ -2,6 +2,11 @@ package penAndSword;
 
 import java.util.*;
 
+/*
+ * The purpose of the trivia class is to provide a way to instantiate trivia objects and add them all to a list that 
+ * can be called by other classes in this program. The trivia class also provides the methods that
+ * run the trivia mini-game such as checking player input and comparing it with the correct answer
+ */
 public class Trivia
 {
 	//fields
@@ -15,9 +20,6 @@ public class Trivia
 	
 	//initialize arraylist to hold questions
 	private static List<Trivia> trivia = new ArrayList<>();
-	
-	
-	
 	
 	/*
 	 * Purpose: This constructor will allow us to create trivia objects, each with a question and four possible answers
@@ -36,15 +38,17 @@ public class Trivia
 		this.answer3 = A3;
 		this.answer4 = A4;
 		this.solution = newSolution;
-		this.addQuestion(this);
+		Trivia.addQuestion(this);
 	}
+	//area to create trivia objects
+	static Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
 	
 	/*
 	 * Purpose: adds a new trivia question to the list
 	 * 
 	 * @param: Trivia newTrivia
 	 */
-	public void addQuestion(Trivia newTrivia) 
+	public static void addQuestion(Trivia newTrivia) 
 	{
 		trivia.add(newTrivia);
 	}
@@ -112,7 +116,7 @@ public class Trivia
 	{
 		Scanner sc = new Scanner(System.in);
 		int playerInput;
-		Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
+		
 		
 		System.out.println(getQuestion(0));
 		System.out.print("Choices: ");

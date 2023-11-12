@@ -76,7 +76,7 @@ public class Player extends Entities {
 		this.playerDamage = newPlayerDamage;
 	}
 
-	public int returnPlayerLevel() {
+	public static int getPlayerLevel() {
 		return this.playerLevel;
 	}
 

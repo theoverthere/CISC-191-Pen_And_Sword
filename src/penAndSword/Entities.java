@@ -1,7 +1,10 @@
 package penAndSword;
 import java.util.*;
 
-
+/*
+ * The purpose of the entity class is to define the basic parameters that the player will have along with 
+ * what the enemies and bosses will have
+ */
 abstract class Entities {
 	//fields 
 	private int health;
@@ -9,7 +12,7 @@ abstract class Entities {
 	private int damage;
 	private int money;
 	private int experience;
-	private String level;
+	private int level;
 	private int armor;
 	
 	//empty constructor for values that all entities must have
@@ -17,11 +20,11 @@ abstract class Entities {
 	{
 		this.health = 0;
 		this.damage = 0;
-		this.level = "0";
+		this.level = 0;
 		this.armor = 0;
 	}
 	
-	public Entities(String name, int health, int damage, String level) 
+	public Entities(String name, int health, int damage, int level) 
 	{
 		this.name = name;
 		this.health = health;

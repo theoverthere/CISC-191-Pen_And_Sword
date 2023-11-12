@@ -3,15 +3,20 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+/*
+ * The purpose of the enemy class is to provide the capability to instantiate enemy objects, organize them by
+ * level, and have these enemy objects be accessed by other classes
+ */
 public class Enemy extends Entities{
 	//fields for values necessary to create enemy objects
 	private int enemyHealth;
 	private int enemyDamage;
 	private String enemyName;
-	private String enemyLevel;
+	private int enemyLevel;
 	
 	//instantiate data structure to hold created enemies and sort by level
-	private static Hashtable<String, List<Enemy>> theHorde = new Hashtable<>();
+	public static Hashtable<Integer, List<Enemy>> theHorde = new Hashtable<>();
 	
 	/*
 	 * Purpose: adds enemy objects to proper place in "theHorde" hashtable. 
@@ -20,7 +25,7 @@ public class Enemy extends Entities{
 	 * @param: String newEnemyLevel (key for hashtable)
 	 * @param: Enemy newEnemyName
 	 */
-	public void addToHorde(String newEnemyLevel, Enemy newEnemyName)
+	public static void addToHorde(int newEnemyLevel, Enemy newEnemyName)
 	{
 		if(!theHorde.containsKey(newEnemyLevel)) 
 		{
@@ -35,10 +40,20 @@ public class Enemy extends Entities{
 	}
 	
 	//copyList constructor
-	private List<Enemy> copyList(List<Enemy> list) 
+	public static List<Enemy> copyList(List<Enemy> list) 
 	{
 		List<Enemy> copyList = (List<Enemy>) ((ArrayList<Enemy>) list).clone();
 		return copyList;
+	}
+	
+	//area to create new enemy objects
+	static Enemy goblin = new Enemy(1, 1, "goblin", 1);
+	static Enemy troll = new Enemy(5, 2, "troll", 1);
+	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2);
+	
+	public static int getHordeLength(int key) 
+	{
+		return theHorde.get(key).size();
 	}
 	
 	//empty constructor to create enemies
@@ -48,17 +63,18 @@ public class Enemy extends Entities{
 	}
 	
 	//Parameterized constructor, receives enemy health, damage, name, and level
-	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, String newEnemyLevel)
+	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, int newEnemyLevel)
 	{
 		super(newEnemyName, newEnemyHealth, newEnemyDamage, newEnemyLevel);
 		enemyName = newEnemyName;
 		enemyHealth = newEnemyHealth;
 		enemyDamage = newEnemyDamage;
 		enemyLevel = newEnemyLevel;
-		this.addToHorde(newEnemyLevel, this);
+		Enemy.addToHorde(newEnemyLevel, this);
 	}
 	
 	//toString method to print enemy object properties
+	@Override
 	public String toString()
 	{
 		return 	"Name: " + enemyName + " Health: " + enemyHealth + " Damage: " + enemyDamage + " Level: "+ enemyLevel;
@@ -66,17 +82,9 @@ public class Enemy extends Entities{
 	
 	public static void main(String[] args)
 	{
-		Enemy goblin = new Enemy(1, 1, "goblin", "1");
-		Enemy troll = new Enemy(5, 2, "troll", "1");
-		Enemy fireArcher = new Enemy(2, 5, "Fire Archer", "2");
+		System.out.println(theHorde.get(2).get(0).toString());
 		
-		
-		System.out.println(theHorde.get("2").get(0).toString());
-		Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
-		System.out.println(Trivia.getQuestion(0));
-		//System.out.println(Items.armor.get("Leather Armor"));
-		
-		
+		System.out.println(Trivia.getQuestion(0));	
 	}
 		
 }

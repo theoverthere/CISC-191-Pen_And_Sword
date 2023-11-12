@@ -4,16 +4,24 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+/*
+ * The purpose of the boss class is to instantiate boss objects that can be called by other classes in this program
+ */
 public class Boss extends Enemy{
 	//fields
 	private int bossHealth;
 	private int bossArmor;
 	private int bossDamage;
-	private String bossLevel;
+	private int bossLevel;
 	private String bossName;
 	
 	//
-	private static List<Boss> bossList = new ArrayList<>();
+	public static List<Boss> bossList = new ArrayList<>();
+	
+	private static void addBoss(Boss newBoss) 
+	{
+		bossList.add(newBoss);
+	}
 	
 	public Boss() 
 	{
@@ -21,14 +29,21 @@ public class Boss extends Enemy{
 	}
 	
 	//Constructor to allow creation of boss objects
-	public Boss(int newBossHealth, int newBossDamage, String newBossLevel, String newBossName)
+	public Boss(int newBossHealth, int newBossDamage, int newBossLevel, String newBossName)
 	{
 		super(newBossDamage, newBossHealth, newBossName, newBossLevel);
 		bossName = newBossName;
 		bossHealth = newBossHealth;
 		bossDamage = newBossDamage;
 		bossLevel = newBossLevel;
-		bossList.add(this);
+		Boss.addBoss(this);
+	}
+	
+	static Boss gorgonTheDestroyer = new Boss(10, 10, 5, "Gorgon the Destroyer");
+	
+	public static Boss getBoss(int index) 
+	{
+		return bossList.get(index);
 	}
 	
 	//toString method to display boss object properties
@@ -39,8 +54,8 @@ public class Boss extends Enemy{
 	
 	public static void main(String[] args) 
 	{
-		Boss gorgonTheDestroyer = new Boss(10, 10, "5", "Gorgon the Destroyer");
-		System.out.println(bossList.get(0));
+		
+		System.out.println(getBoss(0));
 	}
 
 }
