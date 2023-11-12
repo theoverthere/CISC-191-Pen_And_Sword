@@ -26,42 +26,55 @@ public class Store {
 		armorSlot = shopInv.getOneArmor();
 		weaponSlot = shopInv.getOneWeapon();
 		
+		
 		transArmor =armorSlot;
 		
 
 		System.out.println(armorSlot);
 		System.out.println(weaponSlot);
+		System.out.println("you currently have "+shopInv.purse+ " coins");
 	}
 
 	// buy method needs to call the trasaction method in items and needs to somehow
 	// give a price to the armor value and weapon value
 	//this would be called when the player decides to buy the Armor ->
-	public static void buyArmor() 
-	{
+	public static void buyArmor() {
 		//needs multiple if statements for all the possible weapons and armors
 		Items s = new Items();
-		
-		if(transArmor == "armor slot: Plate Armor::4"){
-			
+		 
+		if(transArmor.contains("Plate")){
 			affordArmor = s.Transaction(5);
-			System.out.println("you bought the Plate Armor");
+			if(affordArmor==true) {
+			s.equipArmor(4, "Plate Armor");
+			}
 		}
-		if(transArmor == "armor slot: Steel Armor::6"){
+		if(transArmor.contains("Steel")){
 			
 			affordArmor = s.Transaction(8);
-			System.out.println("You Bought The Steel Armor");
+			if(affordArmor==true) {
+				s.equipArmor(6, "Steel Armor");
+				}
+			
 		}
-		if(transArmor == "armor slot: Leather Armor::3"){
+		if(transArmor.contains("Leather")){
 			
 			affordArmor = s.Transaction(3);
-			System.out.println("You Bought The Leather Armor");
-			
+			if(affordArmor==true) {
+				s.equipArmor(3, "Leather Armor");
+				}
+		}
+	
+		
 			if (transArmor == null) {
 				System.out.println("idk");
 			}
-		}	
 		
-	}
+		}
+	
+		
+		
+		
+	
 
 	// decides the greetings to be says before acessing shop
 	public static String greetingsDecider() {
