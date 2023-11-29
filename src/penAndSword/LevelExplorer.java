@@ -8,8 +8,7 @@ import java.util.Scanner;
  */
 public class LevelExplorer
 {
-	//private static int currentXP = Player.getPlayerLevel();
-	private static int currentXP = 1;
+	private static int currentXP = Player.getPlayerLevel();
 	private static int currentLevel = 1;
 	private static int numLevels;
 	private static int finalLevel = 15;
@@ -99,7 +98,7 @@ public class LevelExplorer
 	{
 		if(input < 0 || input > 2)
 		{
-			throw new InvalidInputException("Input must be between 1-4");
+			throw new InvalidInputException("Input must be between 1-2");
 		}
 		else 
 		{

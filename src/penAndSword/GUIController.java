@@ -2,6 +2,9 @@ package penAndSword;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/*
+ * Purpose: This class will handle execution of code when a button in the GUI is pressed
+ */
 
 public class GUIController  
 	{
@@ -17,7 +20,7 @@ public class GUIController
 	{
 		public void actionPerformed(ActionEvent event) 
 		{
-			GUIView.createGameScreen();
+			GUIView.eraseIntroScreen();
 		}
 	}
 

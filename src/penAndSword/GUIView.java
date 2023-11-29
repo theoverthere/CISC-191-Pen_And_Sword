@@ -7,15 +7,13 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-//import penAndSword.GUIController.IntroScreenHandler;
-//import penAndSword.GUIController.TitleScreenHandler;
-
 import java.awt.*;
 
 public class GUIView extends GUIController
 
-{		//fields for Title and intro:
-static JFrame window;
+{		
+	//fields for Title and intro:
+	static JFrame window;
 	static JLabel backgroundLabel;
 	static JLabel introBackgroundLabel;
 	JButton titleButton;
@@ -25,34 +23,41 @@ static JFrame window;
 	IntroScreenHandler inHandler = new IntroScreenHandler();
 	JPanel introPanel;
 	
-		//fields for panels
-		private JLayeredPane centerPanelContainer;
-		private JPanel centerPanelComponents;
-		private JPanel centerPanelBackground;
-		private JPanel bottomPanel;
-		private JPanel eastPanel;
-		private JPanel westPanel;
-		private JPanel topWestPanel;
-		private JPanel bottomWestPanel;
+	//fields for main screen frame and panels
+	private static JFrame mainFrame;
+	private static JPanel mainPanel;
+	private static JLayeredPane centerPanelContainer;
+	private static JPanel centerPanelComponents;
+	private static JPanel centerPanelBackground;
+	private static JPanel bottomPanel;
+	private static JPanel eastPanel;
+	private static JPanel westPanel;
+	private static JPanel topWestPanel;
+	private static JPanel bottomWestPanel;
 	
-		//fields for components
-		private JTextArea adventureText;
-		static JFormattedTextField playerInputField;
-		private JButton b1;
-		//private ImageIcon backGround;
-		private JLabel bgLabel;
-		private JLabel invSlot1,invSlot2,invSlot3, invSlot4, invSlot5,invSlot6, invSlot7, invSlot8;
-		private JLabel playerHealth;
-		private JLabel playerArmor;
-		private JLabel equippedWeapon;
-		private JProgressBar levelUpProgress;
-		private JLabel portrait1, portrait2, portrait3, portrait4;
-		
-		Font customFont = new Font(Font.DIALOG, Font.BOLD, 10);
+	//fields for center and bottom panel components
+	private static JTextArea adventureText;
+	private static JFormattedTextField playerInputField;
+	private static JButton b1;
 	
+	//fields for east and west panel components
+	private static JLabel bgLabel;
+	private static JLabel invSlot1,invSlot2,invSlot3, invSlot4, invSlot5,invSlot6, invSlot7, invSlot8;
+	private static JLabel playerHealth;
+	private static JLabel playerArmor;
+	private static JLabel equippedWeapon;
+	private static JProgressBar levelUpProgress;
+	private static JLabel portrait1, portrait2, portrait3, portrait4;
+	
+	//fields for begin screen
+	
+	//fields for game over screen
 		
-		//////////////////// TITLE//
-	public GUIView() {
+	static Font customFont = new Font(Font.DIALOG, Font.BOLD, 10);
+	
+	//////////////////////TITLE/////////////////////////	
+	public GUIView() 
+	{
 
 		// Create a window.
 		window = new JFrame();
@@ -66,11 +71,14 @@ static JFrame window;
 		window.setContentPane(opuo);
 
 		BufferedImage image = null;
-		try {
-			image = ImageIO.read(new File("./Images/TitleImage.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			try 
+			{
+				image = ImageIO.read(new File("./Images/TitleImage.png"));
+			}
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
 
 		// Create a JLabel with the image
 		backgroundLabel = new JLabel(new ImageIcon(image));
@@ -85,13 +93,17 @@ static JFrame window;
 		titleButton.setForeground(Color.WHITE); // White text color
 		titleButton.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
 		titleButton.addActionListener(tsHandler);
+		
 		// Add a hover effect
-		titleButton.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseEntered(java.awt.event.MouseEvent evt) {
+		titleButton.addMouseListener(new java.awt.event.MouseAdapter() 
+		{
+			public void mouseEntered(java.awt.event.MouseEvent evt) 
+			{
 				titleButton.setBackground(new Color(20, 100, 42)); // Lighter orange on hover
 			}
 
-			public void mouseExited(java.awt.event.MouseEvent evt) {
+			public void mouseExited(java.awt.event.MouseEvent evt) 
+			{
 				titleButton.setBackground(new Color(255, 69, 0)); // Back to original color on exit
 			}
 		});
@@ -117,8 +129,10 @@ static JFrame window;
 		// Display the window.
 		window.setVisible(true);
 	}	
-	//////////////////// INTRO//
-	public static void createIntroScreen() {
+	
+	//////////////////// INTRO TEXT///////////////////////////////
+	public static void createIntroScreen() 
+	{
 		backgroundLabel.setVisible(false);// erases the title things
 		startButtonPanel.setVisible(false);
 
@@ -146,15 +160,63 @@ static JFrame window;
 		window.add(introButton, BorderLayout.SOUTH);
 		window.setVisible(true);
 	}
-		public static void createGameScreen() {                    //GAME////////////////////
+		public static void eraseIntroScreen() 
+		{                    
 		// erases the intro screen
 		introBackgroundLabel.setVisible(false);
 		introButton.setVisible(false);
 		// if you want to get rid of the black background use window.setVisablle to
 		// false
-	}
+		}
 		
-		private void createCenterPanelComponents() 
+		////////////////////Begin screen (input name and start game)/////////////////////////////
+		public static void createBeginScreen() 
+		{
+			
+		}
+		
+		/////////////////////Main panel///////////////////////////////////////////////////////////
+		public static void createMainScreen() 
+		{
+			mainFrame = new JFrame();
+			
+			final int WINDOW_WIDTH = 700;
+			final int WINDOW_HEIGHT = 500;
+			
+			mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			mainPanel = new JPanel(new BorderLayout()); 
+			
+			centerPanelContainer = new JLayeredPane();
+			createCenterPanelComponents();
+			createCenterPanelBackground();
+			centerPanelContainer.add(centerPanelComponents);
+			centerPanelContainer.add(centerPanelBackground);
+			mainPanel.add(centerPanelContainer, BorderLayout.CENTER);
+			
+			createBottomPanel();
+			mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+			
+			createEastPanel();
+			mainPanel.add(eastPanel, BorderLayout.EAST);
+			
+			createWestPanel();
+			mainPanel.add(westPanel, BorderLayout.WEST);
+			
+			
+			
+			mainFrame.add(mainPanel);
+		}
+		
+		///////////////////Game over/////////////////////////////////////////////////////////////
+		public static void createGameOverScreen() 
+		{
+			
+		}
+		
+		
+		///////////////////////////////Components and Panels///////////////////////////////////////
+		private static void createCenterPanelComponents() 
 		{
 			centerPanelComponents = new JPanel();
 			adventureText = new JTextArea();
@@ -163,7 +225,7 @@ static JFrame window;
 			centerPanelComponents.add(adventureText);	
 		}
 		
-		private void createCenterPanelBackground() 
+		private static void createCenterPanelBackground() 
 		{	
 			centerPanelBackground = new JPanel(new BorderLayout());
 			ImageIcon backGround = new ImageIcon("Images/health_potion.jpg");
@@ -172,7 +234,7 @@ static JFrame window;
 			centerPanelBackground.setPreferredSize(new Dimension(backGround.getIconWidth(), backGround.getIconHeight()));
 		}
 		
-		private void createBottomPanel() 
+		private static void createBottomPanel() 
 		{
 			bottomPanel = new JPanel();
 			playerInputField = new JFormattedTextField();
@@ -181,7 +243,7 @@ static JFrame window;
 			bottomPanel.add(playerInputField);
 		}
 		
-		private void createEastPanel() 
+		private static void createEastPanel() 
 		{
 			eastPanel = new JPanel();
 			eastPanel.setLayout(new GridLayout(4, 2));
@@ -205,7 +267,7 @@ static JFrame window;
 			eastPanel.add(invSlot8);
 		}
 		
-		private void createWestPanel() 
+		private static void createWestPanel() 
 		{
 			westPanel = new JPanel();
 			westPanel.setLayout(new GridLayout(2, 1));
@@ -237,6 +299,8 @@ static JFrame window;
 			westPanel.add(bottomWestPanel);	
 		}
 		
+		//////////////////////////////////////////Register Buttons///////////////////////////////////////////////////
+		
 		//register action listener for playerInputField
 		public void registerPlayerInputFieldListener(GUIController.playerInputFieldListener playerInputFieldListener) 
 	    {
@@ -254,10 +318,8 @@ static JFrame window;
 					return true;
 				case "3":
 					return true;
-				case "4": 
-					return true;
 			}
-			throw new InvalidInputException("Input must be 1-4");
+			throw new InvalidInputException("Input must be 1-3");
 		}
 		 
 		public static void main(String[] args) 

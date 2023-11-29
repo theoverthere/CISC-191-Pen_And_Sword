@@ -40,9 +40,6 @@ public class Trivia
 		this.solution = newSolution;
 		Trivia.addQuestion(this);
 	}
-	//area to create trivia objects
-	static Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
-	static Trivia q1 = new Trivia("What walks on four legs in the morning, two legs in the afternoon, and three legs in the evening?", "A Man", "A chicken", "A robot", "A dog", 1);
 	
 	/*
 	 * Purpose: adds a new trivia question to the list
@@ -54,12 +51,17 @@ public class Trivia
 		trivia.add(newTrivia);
 	}
 	
+	//area to create trivia objects
+	static Trivia test = new Trivia("What number am I thinking of?", "1", "2", "3", "4", 3);
+	static Trivia q1 = new Trivia("What walks on four legs in the morning, two legs in the afternoon, and three legs in the evening?", "A Man", "A chicken", "A robot", "A dog", 1);
+	
 	/*
 	 * Purpose: allow other classes to access a trivia question by index
 	 * 
 	 * @param: int questionNum
 	 * @return: String question
 	 */
+	
 	public static String getQuestion(int questionNum) 
 	{
 		return trivia.get(questionNum).question;
@@ -71,6 +73,7 @@ public class Trivia
 	 * @param: int questionNum
 	 * @return: String answer1, answer2, answer3, answer4
 	 */
+	
 	public static String getAnswerChoices(int questionNum) 
 	{
 		return trivia.get(questionNum).answer1 + " " + trivia.get(questionNum).answer2 + " " + trivia.get(questionNum).answer3 + " " + trivia.get(questionNum).answer4;
@@ -82,6 +85,7 @@ public class Trivia
 	 * @param: int questionNum
 	 * @return: int solution
 	 */
+	
 	public static int getSolution(int questionNum)
 	{
 		return trivia.get(questionNum).solution;

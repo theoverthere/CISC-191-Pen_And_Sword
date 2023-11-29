@@ -62,14 +62,14 @@ public class Dungeon
 			}
 			if(playerLevel > 2 && playerLevel <= 4) 
 			{
-				numEnemies = 2;
+				numEnemies = 3;
 				numLoot = 2;
 				coins = true;
 				generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
 			if(playerLevel >4) 
 			{
-				numEnemies = 3;
+				numEnemies = 4;
 				numLoot = 3;
 				coins = true;
 				generateDungeon(playerLevel, numEnemies, numLoot, coins);
