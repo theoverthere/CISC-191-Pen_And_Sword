@@ -17,30 +17,37 @@ public class GUIController
 	{
 		public void actionPerformed(ActionEvent event) 
 		{
-			createGameScreen();
+			GUIView.createGameScreen();
 		}
 	}
 
-	public class playerInputListener implements ActionListener
+	public class playerInputFieldListener implements ActionListener
 	{
 
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			String input = GUIView.playerInputField.getText();
-			if(GUIView.inputRangeCheck(GUIView.playerInputField.getText())) 
+			try
 			{
-				switch(input) 
+				if(GUIView.inputRangeCheck(GUIView.playerInputField.getText())) 
 				{
-					case "1":
-						//whatever happens
-					case "2":
-						//whatever happens for 2
-					case "3":
-						//whatevr happens for 4
-					case "4":
-						//whatever happ
+					switch(input) 
+					{
+						case "1":
+							//whatever happens
+						case "2":
+							//whatever happens for 2
+						case "3":
+							//whatevr happens for 3
+						case "4":
+							//whatever happens for 4
+					}
 				}
+			}
+			catch (InvalidInputException e1)
+			{
+				e1.printStackTrace();
 			}
 			
 			

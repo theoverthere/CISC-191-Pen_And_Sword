@@ -146,7 +146,7 @@ static JFrame window;
 		window.add(introButton, BorderLayout.SOUTH);
 		window.setVisible(true);
 	}
-	public void createGameScreen() {                    //GAME////////////////////
+		public static void createGameScreen() {                    //GAME////////////////////
 		// erases the intro screen
 		introBackgroundLabel.setVisible(false);
 		introButton.setVisible(false);
@@ -237,12 +237,14 @@ static JFrame window;
 			westPanel.add(bottomWestPanel);	
 		}
 		
-		public void registerplayerInputField(GUIController.playerInputListener playerInputField) 
+		//register action listener for playerInputField
+		public void registerPlayerInputFieldListener(GUIController.playerInputFieldListener playerInputFieldListener) 
 	    {
 			playerInputField.addActionListener(playerInputFieldListener);
 	    }
 		
-		public static boolean inputRangeCheck(String input) 
+		//method to check if input in playerInputField was within accepted range (1-4)
+		public static boolean inputRangeCheck(String input) throws InvalidInputException
 		{
 			switch(input) 
 			{
@@ -255,7 +257,7 @@ static JFrame window;
 				case "4": 
 					return true;
 			}
-			return false;
+			throw new InvalidInputException("Input must be 1-4");
 		}
 		 
 		public static void main(String[] args) 
