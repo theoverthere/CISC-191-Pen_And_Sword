@@ -67,7 +67,7 @@ static JFrame window;
 
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("C:\\Users\\nicho\\git\\CISC-191-Pen_And_Sword\\Images\\pen and sword.png"));
+			image = ImageIO.read(new File("./Images/TitleImage.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -128,7 +128,7 @@ static JFrame window;
 		BufferedImage introImage = null;
 		try {
 			introImage = ImageIO.read(new File(
-					"C:\\Users\\nicho\\OneDrive\\Documents\\GitHub\\CISC-191-Pen_And_Sword\\images\\introText.jpg"));
+					"./Images/IntroText.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -139,7 +139,7 @@ static JFrame window;
 		introButton.setBackground(new Color(167, 194, 192)); // Orange background
 		introButton.setForeground(Color.WHITE); // White text color
 		introButton.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
-		introButton.addActionListener(inHandler);
+		//introButton.addActionListener(inHandler);
 
 		// displays everything
 		window.add(introBackgroundLabel);
