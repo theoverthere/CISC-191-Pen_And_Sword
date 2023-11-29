@@ -6,11 +6,25 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
+
+//import penAndSword.GUIController.IntroScreenHandler;
+//import penAndSword.GUIController.TitleScreenHandler;
+
 import java.awt.*;
 
-public class GUIView
+public class GUIView extends GUIController
 
-{		
+{		//fields for Title and intro:
+static JFrame window;
+	static JLabel backgroundLabel;
+	static JLabel introBackgroundLabel;
+	JButton titleButton;
+	static JButton introButton;
+	static JPanel startButtonPanel;
+	TitleScreenHandler tsHandler = new TitleScreenHandler();
+	IntroScreenHandler inHandler = new IntroScreenHandler();
+	JPanel introPanel;
+	
 		//fields for panels
 		private JLayeredPane centerPanelContainer;
 		private JPanel centerPanelComponents;
@@ -23,7 +37,7 @@ public class GUIView
 	
 		//fields for components
 		private JTextArea adventureText;
-		private JFormattedTextField playerInputField;
+		static JFormattedTextField playerInputField;
 		private JButton b1;
 		//private ImageIcon backGround;
 		private JLabel bgLabel;
@@ -37,91 +51,108 @@ public class GUIView
 		Font customFont = new Font(Font.DIALOG, Font.BOLD, 10);
 	
 		
-		public GUIView() 
-		{
-			JFrame mainFrame = new JFrame("Pen & Sword"); //create main JFrame
-			
-			final int WINDOW_WIDTH = 1200; // Window width in pixels
-			final int WINDOW_HEIGHT = 650; // Window height in pixels
-			
-			mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
-			JPanel mainPanel = new JPanel(new BorderLayout()); //create main panel
-			mainFrame.setContentPane(mainPanel);
-		
-			
-			centerPanelContainer = new JLayeredPane(); //create layered pain
-			
-			createCenterPanelComponents(); //initialize components of layered pane
-			createCenterPanelBackground(); //intialize background of layered pane
-			centerPanelContainer.add(centerPanelBackground, JLayeredPane.DEFAULT_LAYER);
-			centerPanelContainer.add(centerPanelComponents, JLayeredPane.PALETTE_LAYER);
-			
-			mainPanel.add(centerPanelContainer, BorderLayout.CENTER);
-			
-			createBottomPanel();
-			mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-		
-			createEastPanel();
-			mainPanel.add(eastPanel, BorderLayout.EAST);
-				
-			createWestPanel();
-			mainPanel.add(westPanel, BorderLayout.WEST);
-	
-				
-	
+		//////////////////// TITLE//
+	public GUIView() {
+
+		// Create a window.
+		window = new JFrame();
+		// Set the size of the window.
+		window.setSize(1200, 700);
+
+		// Set the title.
+		window.setTitle("Pen & Sword");
+
 		JPanel opuo = new JPanel(new BorderLayout());
-		mainFrame.setContentPane(opuo);
+		window.setContentPane(opuo);
 
-			BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File("C:\\Users\\nicho\\git\\CISC-191-Pen_And_Sword\\Images\\pen and sword.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("C:\\Users\\nicho\\git\\CISC-191-Pen_And_Sword\\Images\\pen and sword.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        // Create a JLabel with the image
-        JLabel backgroundLabel = new JLabel(new ImageIcon(image));
+		// Create a JLabel with the image
+		backgroundLabel = new JLabel(new ImageIcon(image));
 
-        // Set layout to BorderLayout to cover the whole frame
-        mainFrame.setLayout(new BorderLayout());
+		// Set layout to BorderLayout to cover the whole frame
+		window.setLayout(new BorderLayout());
 
-        // Add the background label to the frame
-        
-        // Create button
-        JButton titleButton = new JButton("Play Game?");
-        
-        
-        
-        titleButton.setBackground(new Color(255, 69, 0)); // Orange background
-        titleButton.setForeground(Color.WHITE); // White text color
-        titleButton.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
-        
-        // Add a hover effect
-        titleButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-            	titleButton.setBackground(new Color(20, 100, 42)); // Lighter orange on hover
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-            	titleButton.setBackground(new Color(255, 69, 0)); // Back to original color on exit
-            }
-        });
-        
-        
-        // Add the button to the frame
-        JPanel startButtonPanel = new JPanel();
-        
-        startButtonPanel.setBackground(new Color(77, 77, 94));
-        startButtonPanel.add(titleButton);
-        
-        mainFrame.add(backgroundLabel);//BorderLayout.CENTER
-        mainFrame.add(startButtonPanel, BorderLayout.SOUTH);
-        
-        
-        // Display the window.
-		mainFrame.setVisible(true);
-		}	
+		// Create button
+		titleButton = new JButton("Play Game?");
+
+		titleButton.setBackground(new Color(255, 69, 0)); // Orange background
+		titleButton.setForeground(Color.WHITE); // White text color
+		titleButton.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
+		titleButton.addActionListener(tsHandler);
+		// Add a hover effect
+		titleButton.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				titleButton.setBackground(new Color(20, 100, 42)); // Lighter orange on hover
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				titleButton.setBackground(new Color(255, 69, 0)); // Back to original color on exit
+			}
+		});
+
+		// Add the button to the frame
+		startButtonPanel = new JPanel();
+		startButtonPanel.setBackground(new Color(77, 77, 94));
+		startButtonPanel.add(titleButton);
+		window.add(backgroundLabel);// BorderLayout.CENTER
+		window.add(startButtonPanel, BorderLayout.SOUTH);
+		// Display the window.
+		window.setVisible(true);
+
+		// Add the button to the frame
+		startButtonPanel = new JPanel();
+
+		startButtonPanel.setBackground(new Color(77, 77, 94));
+		startButtonPanel.add(titleButton);
+
+		window.add(backgroundLabel);// BorderLayout.CENTER
+		window.add(startButtonPanel, BorderLayout.SOUTH);
+
+		// Display the window.
+		window.setVisible(true);
+	}	
+	//////////////////// INTRO//
+	public static void createIntroScreen() {
+		backgroundLabel.setVisible(false);// erases the title things
+		startButtonPanel.setVisible(false);
+
+		// sets the background to black
+		window.getContentPane().setBackground(Color.black);
+		// makes a new image and applies it to introimage
+		BufferedImage introImage = null;
+		try {
+			introImage = ImageIO.read(new File(
+					"C:\\Users\\nicho\\OneDrive\\Documents\\GitHub\\CISC-191-Pen_And_Sword\\images\\introText.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		introBackgroundLabel = new JLabel(new ImageIcon(introImage));
+
+		// creates a new button similar to title
+		introButton = new JButton("Continue");
+		introButton.setBackground(new Color(167, 194, 192)); // Orange background
+		introButton.setForeground(Color.WHITE); // White text color
+		introButton.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
+		introButton.addActionListener(inHandler);
+
+		// displays everything
+		window.add(introBackgroundLabel);
+		window.add(introButton, BorderLayout.SOUTH);
+		window.setVisible(true);
+	}
+	public void createGameScreen() {                    //GAME////////////////////
+		// erases the intro screen
+		introBackgroundLabel.setVisible(false);
+		introButton.setVisible(false);
+		// if you want to get rid of the black background use window.setVisablle to
+		// false
+	}
 		
 		private void createCenterPanelComponents() 
 		{
@@ -203,22 +234,28 @@ public class GUIView
 			bottomWestPanel.add(portrait2);
 			bottomWestPanel.add(portrait3);
 			bottomWestPanel.add(portrait4);
-			westPanel.add(bottomWestPanel);
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			westPanel.add(bottomWestPanel);	
+		}
+		
+		public void registerplayerInputField(GUIController.playerInputListener playerInputField) 
+	    {
+			playerInputField.addActionListener(playerInputFieldListener);
+	    }
+		
+		public static boolean inputRangeCheck(String input) 
+		{
+			switch(input) 
+			{
+				case "1":
+					return true;
+				case "2":
+					return true;
+				case "3":
+					return true;
+				case "4": 
+					return true;
+			}
+			return false;
 		}
 		 
 		public static void main(String[] args) 
