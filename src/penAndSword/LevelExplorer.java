@@ -109,6 +109,6 @@ public class LevelExplorer
 	
 	public static void main(String[] args) throws InvalidInputException 
 	{
-		nextLevel(5);
+		nextLevel(2);
 	}
 }
