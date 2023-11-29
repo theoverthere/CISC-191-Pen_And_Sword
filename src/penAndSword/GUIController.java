@@ -12,19 +12,32 @@ public class GUIController
 		{
 			public void actionPerformed(ActionEvent event) 
 			{
-			GUIView.createIntroScreen();
+				GUIView.createIntroScreen();
 			}
 	}
 
-	public class IntroScreenHandler implements ActionListener 
+	public static class IntroScreenHandler implements ActionListener 
 	{
 		public void actionPerformed(ActionEvent event) 
 		{
 			GUIView.eraseIntroScreen();
+			GUIView.createBeginScreen();
 		}
 	}
+	
+	public static class BeginScreenHandler implements ActionListener
+	{
 
-	public class playerInputFieldListener implements ActionListener
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			GUIView.nameInput.getText();
+			
+		}
+		
+	}
+
+	public static class playerInputFieldListener implements ActionListener
 	{
 
 		@Override

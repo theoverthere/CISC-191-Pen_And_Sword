@@ -20,7 +20,8 @@ public class GUIView extends GUIController
 	static JButton introButton;
 	static JPanel startButtonPanel;
 	TitleScreenHandler tsHandler = new TitleScreenHandler();
-	IntroScreenHandler inHandler = new IntroScreenHandler();
+	static IntroScreenHandler inHandler = new IntroScreenHandler();
+	static BeginScreenHandler bgHandler = new BeginScreenHandler();
 	JPanel introPanel;
 	
 	//fields for main screen frame and panels
@@ -37,8 +38,7 @@ public class GUIView extends GUIController
 	
 	//fields for center and bottom panel components
 	private static JTextArea adventureText;
-	private static JFormattedTextField playerInputField;
-	private static JButton b1;
+	static JFormattedTextField playerInputField;
 	
 	//fields for east and west panel components
 	private static JLabel bgLabel;
@@ -50,6 +50,12 @@ public class GUIView extends GUIController
 	private static JLabel portrait1, portrait2, portrait3, portrait4;
 	
 	//fields for begin screen
+	private static JTextArea nameHere;
+	static JFormattedTextField nameInput;
+	private static JButton begin;
+	private static JFrame beginFrame;
+	private static JPanel beginPanel;
+	private static JPanel beginContainer;
 	
 	//fields for game over screen
 		
@@ -153,7 +159,7 @@ public class GUIView extends GUIController
 		introButton.setBackground(new Color(167, 194, 192)); // Orange background
 		introButton.setForeground(Color.WHITE); // White text color
 		introButton.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
-		//introButton.addActionListener(inHandler);
+		introButton.addActionListener(inHandler);
 
 		// displays everything
 		window.add(introBackgroundLabel);
@@ -172,7 +178,36 @@ public class GUIView extends GUIController
 		////////////////////Begin screen (input name and start game)/////////////////////////////
 		public static void createBeginScreen() 
 		{
+			window.dispose();
 			
+			// Create a window.
+			beginFrame = new JFrame();
+			// Set the size of the window.
+			beginFrame.setSize(1200, 700);
+
+			// Set the title.
+			beginFrame.setTitle("Pen & Sword");
+
+			beginPanel = new JPanel(new BorderLayout());
+			beginFrame.setContentPane(beginPanel);
+			
+			beginContainer = new JPanel();
+			beginPanel.add(beginContainer, BorderLayout.CENTER);
+			
+			nameHere = new JTextArea("Please enter your name");
+			beginContainer.add(nameHere);
+			nameInput = new JFormattedTextField("test");
+			beginContainer.add(nameInput);
+			
+			begin = new JButton("Begin Journey");
+			begin.setBackground(new Color(167, 194, 192)); // Orange background
+			begin.setForeground(Color.WHITE); // White text color
+			begin.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
+			begin.addActionListener(bgHandler);
+			beginPanel.add(begin, BorderLayout.SOUTH);
+			
+			//beginFrame.add(beginPanel);
+			beginFrame.setVisible(true);
 		}
 		
 		/////////////////////Main panel///////////////////////////////////////////////////////////
@@ -180,12 +215,13 @@ public class GUIView extends GUIController
 		{
 			mainFrame = new JFrame();
 			
-			final int WINDOW_WIDTH = 700;
-			final int WINDOW_HEIGHT = 500;
+			final int WINDOW_WIDTH = 1200;
+			final int WINDOW_HEIGHT = 700;
 			
 			mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			mainPanel = new JPanel(new BorderLayout()); 
+			mainPanel = new JPanel(new BorderLayout());
+			mainFrame.setContentPane(mainPanel);
 			
 			centerPanelContainer = new JLayeredPane();
 			createCenterPanelComponents();
@@ -201,11 +237,10 @@ public class GUIView extends GUIController
 			mainPanel.add(eastPanel, BorderLayout.EAST);
 			
 			createWestPanel();
-			mainPanel.add(westPanel, BorderLayout.WEST);
-			
-			
+			mainPanel.add(westPanel, BorderLayout.WEST);	
 			
 			mainFrame.add(mainPanel);
+			mainFrame.setVisible(true);
 		}
 		
 		///////////////////Game over/////////////////////////////////////////////////////////////
@@ -324,8 +359,9 @@ public class GUIView extends GUIController
 		 
 		public static void main(String[] args) 
 		{	 
-			GUIView gui = new GUIView();
-
+			//GUIView gui = new GUIView();
+			createMainScreen();
+			//createBeginScreen();
 		}
 
 }

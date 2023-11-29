@@ -12,6 +12,7 @@ public class Player extends Entities {
 	private static int playerDamage; // slash weapon
 	private static int playerMoney;
 	private static int playerLevel;
+	private static String playerName;
 	//data structure to hold items that the player finds on their journey
 	private static List<Items> playerInventory = new ArrayList<>();
 
@@ -26,13 +27,14 @@ public class Player extends Entities {
 		this.playerArmor = 0;
 		this.playerMoney = 0;
 		this.playerLevel = 1;
+		this.playerName = "";
 	}
 	
 	public static Player player1 = new Player();
 
 //gets player health
-	public static int getPlayerHealth() {
-		return player1.playerHealth;
+	public int getPlayerHealth() {
+		return this.playerHealth;
 	}
 
 //takes or gives player health
