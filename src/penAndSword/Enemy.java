@@ -66,6 +66,7 @@ public class Enemy extends Entities{
 	//area to create new enemy objects
 	static Enemy goblin = new Enemy(1, 1, "goblin", 1);
 	static Enemy troll = new Enemy(5, 2, "troll", 1);
+	static Enemy bandit = new Enemy(4, 3, "bandit", 1);
 	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2);
 	
 	public static int getHordeLength(int key) 
@@ -83,8 +84,9 @@ public class Enemy extends Entities{
 	public static void main(String[] args)
 	{
 		System.out.println(theHorde.get(2).get(0).toString());
+		System.out.println(theHorde.get(1).toString());
 		
-		System.out.println(Trivia.getQuestion(0));	
+		//System.out.println(Trivia.getQuestion(0));	
 	}
 		
 }
