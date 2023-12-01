@@ -39,6 +39,7 @@ public class GUIView extends GUIController
 	//fields for center and bottom panel components
 	private static JTextArea adventureText;
 	static JFormattedTextField playerInputField;
+	static JButton enterButton;
 	
 	//fields for east and west panel components
 	private static JLabel bgLabel;
@@ -50,15 +51,16 @@ public class GUIView extends GUIController
 	private static JLabel portrait1, portrait2, portrait3, portrait4;
 	
 	//fields for begin screen
-	private static JTextArea nameHere;
-	static JFormattedTextField nameInput;
+	private static JFormattedTextField nameHere;
+	static JTextField nameInput;
 	private static JButton begin;
 	private static JFrame beginFrame;
 	private static JPanel beginPanel;
 	private static JPanel beginContainer;
 	
 	//fields for game over screen
-		
+	
+	//custom font
 	static Font customFont = new Font(Font.DIALOG, Font.BOLD, 10);
 	
 	//////////////////////TITLE/////////////////////////	
@@ -146,10 +148,13 @@ public class GUIView extends GUIController
 		window.getContentPane().setBackground(Color.black);
 		// makes a new image and applies it to introimage
 		BufferedImage introImage = null;
-		try {
+		try 
+		{
 			introImage = ImageIO.read(new File(
 					"./Images/IntroText.png"));
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 		introBackgroundLabel = new JLabel(new ImageIcon(introImage));
@@ -194,9 +199,9 @@ public class GUIView extends GUIController
 			beginContainer = new JPanel();
 			beginPanel.add(beginContainer, BorderLayout.CENTER);
 			
-			nameHere = new JTextArea("Please enter your name");
+			nameHere = new JFormattedTextField("Please enter your name:");
 			beginContainer.add(nameHere);
-			nameInput = new JFormattedTextField("test");
+			nameInput = new JTextField("");
 			beginContainer.add(nameInput);
 			
 			begin = new JButton("Begin Journey");
@@ -223,12 +228,12 @@ public class GUIView extends GUIController
 			mainPanel = new JPanel(new BorderLayout());
 			mainFrame.setContentPane(mainPanel);
 			
-			centerPanelContainer = new JLayeredPane();
+			//centerPanelContainer = new JLayeredPane();
 			createCenterPanelComponents();
-			createCenterPanelBackground();
-			centerPanelContainer.add(centerPanelComponents);
-			centerPanelContainer.add(centerPanelBackground);
-			mainPanel.add(centerPanelContainer, BorderLayout.CENTER);
+			//createCenterPanelBackground();
+			//centerPanelContainer.add(centerPanelComponents);
+			//centerPanelContainer.add(centerPanelBackground);
+			mainPanel.add(centerPanelComponents, BorderLayout.CENTER);
 			
 			createBottomPanel();
 			mainPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -239,7 +244,7 @@ public class GUIView extends GUIController
 			createWestPanel();
 			mainPanel.add(westPanel, BorderLayout.WEST);	
 			
-			mainFrame.add(mainPanel);
+			//mainFrame.add(mainPanel);
 			mainFrame.setVisible(true);
 		}
 		
@@ -267,6 +272,17 @@ public class GUIView extends GUIController
 			bgLabel = new JLabel(backGround);
 			centerPanelBackground.add(bgLabel, BorderLayout.CENTER);
 			centerPanelBackground.setPreferredSize(new Dimension(backGround.getIconWidth(), backGround.getIconHeight()));
+			//BufferedImage centerBgImage = null;
+//			try 
+//			{
+//				centerBgImage = ImageIO.read(new File(
+//						"./Images/IntroText.png"));
+//			} 
+//			catch (IOException e) 
+//			{
+//				e.printStackTrace();
+//			}
+//			introBackgroundLabel = new JLabel(new ImageIcon(centerBgImage));
 		}
 		
 		private static void createBottomPanel() 
@@ -275,6 +291,8 @@ public class GUIView extends GUIController
 			playerInputField = new JFormattedTextField();
 			playerInputField.setText("This is where player input will be");
 			playerInputField.setFont(customFont);
+			enterButton = new JButton("Submit");
+			bottomPanel.add(enterButton);
 			bottomPanel.add(playerInputField);
 		}
 		
@@ -309,8 +327,8 @@ public class GUIView extends GUIController
 			
 			topWestPanel = new JPanel();
 			topWestPanel.setLayout(new GridLayout(4, 1));
-			playerHealth = new JLabel("Health: 100");
-			playerArmor = new JLabel("Armor: 20");
+			playerHealth = new JLabel("Health: " + Player.getPlayerHealth(Player.player1));
+			playerArmor = new JLabel("Armor: " + Player.getPlayerArmor(Player.player1));
 			equippedWeapon = new JLabel("sword_picture.jpg");
 			levelUpProgress = new JProgressBar(1, 10);
 			levelUpProgress.setBounds(1, 1, 5, 2);
@@ -342,16 +360,21 @@ public class GUIView extends GUIController
 			playerInputField.addActionListener(playerInputFieldListener);
 	    }
 		
+		public void registerSubmitListener(GUIController.submitListener submitListener) 
+		{
+			enterButton.addActionListener(submitListener);
+		}
+		
 		//method to check if input in playerInputField was within accepted range (1-4)
 		public static boolean inputRangeCheck(String input) throws InvalidInputException
 		{
 			switch(input) 
 			{
-				case "1":
+				case "1": //Answer question
 					return true;
-				case "2":
+				case "2": //Fight enemy
 					return true;
-				case "3":
+				case "3": //Use item
 					return true;
 			}
 			throw new InvalidInputException("Input must be 1-3");

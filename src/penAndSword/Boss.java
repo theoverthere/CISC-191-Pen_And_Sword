@@ -59,7 +59,7 @@ public class Boss extends Enemy{
 	public static void main(String[] args) 
 	{
 		
-		System.out.println(getBoss(0));
+		//System.out.println(getBoss(0));
 	}
 
 }

@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 
 public class GUIController  
 	{
+		
+
 		public class TitleScreenHandler implements ActionListener
 		{
 			public void actionPerformed(ActionEvent event) 
@@ -31,10 +33,41 @@ public class GUIController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			GUIView.nameInput.getText();
+			Player player1 = new Player(GUIView.nameInput.getText());
+			GUIView.createMainScreen();
 			
 		}
 		
+	}
+	
+	public static class submitListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			String input = GUIView.playerInputField.getText();
+			try
+			{
+				if(GUIView.inputRangeCheck(GUIView.playerInputField.getText())) 
+				{
+					switch(input) 
+					{
+						case "1":
+							//
+						case "2":
+							
+						case "3":
+							//
+						case "4":
+							//
+					}
+				}
+			}
+			catch (InvalidInputException e1)
+			{
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	public static class playerInputFieldListener implements ActionListener
@@ -51,13 +84,13 @@ public class GUIController
 					switch(input) 
 					{
 						case "1":
-							//whatever happens
+							//
 						case "2":
-							//whatever happens for 2
+							//
 						case "3":
-							//whatevr happens for 3
+							//
 						case "4":
-							//whatever happens for 4
+							//
 					}
 				}
 			}
@@ -67,8 +100,8 @@ public class GUIController
 			}
 			
 			
-		}
-
+		}	
 	}
-		
+	
+	
 }

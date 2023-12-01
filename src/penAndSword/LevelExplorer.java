@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class LevelExplorer
 {
-	private static int currentXP = Player.getPlayerLevel();
+	private static int currentXP = Player.getPlayerLevel(Player.player1);
 	private static int currentLevel = 1;
 	private static int numLevels;
 	private static int finalLevel = 15;
