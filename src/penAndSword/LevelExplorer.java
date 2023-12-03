@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class LevelExplorer
 {
-	private static int currentXP = Player.getPlayerLevel(Player.player1);
+	private int currentXP = Player.player1.getLevel();
 	private static int currentLevel = 1;
 	private static int numLevels;
 	private static int finalLevel = 15;
@@ -21,7 +21,7 @@ public class LevelExplorer
 	 * 
 	 * @param: int input
 	 */
-	public static void nextLevel(int input) throws InvalidInputException
+	public void nextLevel(int input) throws InvalidInputException
 	{
 		if(currentLevel == 1) 
 		{
@@ -94,7 +94,7 @@ public class LevelExplorer
 		}
 	}
 	
-	public static int playerChooseNextLevel(int input) throws InvalidInputException
+	public int playerChooseNextLevel(int input) throws InvalidInputException
 	{
 		if(input < 0 || input > 2)
 		{
@@ -108,6 +108,6 @@ public class LevelExplorer
 	
 	public static void main(String[] args) throws InvalidInputException 
 	{
-		nextLevel(2);
+		//nextLevel(2);
 	}
 }

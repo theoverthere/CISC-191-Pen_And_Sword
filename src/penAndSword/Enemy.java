@@ -14,6 +14,7 @@ public class Enemy extends Entities{
 	private int enemyDamage;
 	private String enemyName;
 	private int enemyLevel;
+	private int enemyArmor;
 	
 	//instantiate data structure to hold created enemies and sort by level
 	public static Hashtable<Integer, List<Enemy>> theHorde = new Hashtable<>();
@@ -46,6 +47,11 @@ public class Enemy extends Entities{
 		return copyList;
 	}
 	
+	public static int getHordeLength(int key) 
+	{
+		return theHorde.get(key).size();
+	}
+	
 	//empty constructor to create enemies
 	public Enemy()
 	{
@@ -53,25 +59,75 @@ public class Enemy extends Entities{
 	}
 	
 	//Parameterized constructor, receives enemy health, damage, name, and level
-	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, int newEnemyLevel)
+	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, int newEnemyLevel, int newEnemyArmor)
 	{
-		super(newEnemyName, newEnemyHealth, newEnemyDamage, newEnemyLevel);
+		super();
 		enemyName = newEnemyName;
 		enemyHealth = newEnemyHealth;
 		enemyDamage = newEnemyDamage;
 		enemyLevel = newEnemyLevel;
+		enemyArmor = newEnemyArmor;
 		Enemy.addToHorde(newEnemyLevel, this);
 	}
 	
 	//area to create new enemy objects
-	static Enemy goblin = new Enemy(1, 1, "goblin", 1);
-	static Enemy troll = new Enemy(5, 2, "troll", 1);
-	static Enemy bandit = new Enemy(4, 3, "bandit", 1);
-	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2);
+	static Enemy goblin = new Enemy(1, 1, "goblin", 1, 0);
+	static Enemy troll = new Enemy(5, 2, "troll", 1, 0);
+	static Enemy bandit = new Enemy(4, 3, "bandit", 1, 0);
+	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2, 0);
 	
-	public static int getHordeLength(int key) 
+	//required methods
+	@Override
+	public String getHealth()
 	{
-		return theHorde.get(key).size();
+		String eHealth = Integer.toString(this.enemyHealth);
+		return eHealth;
+	}
+
+	@Override
+	public void setHealth(int incoming)
+	{
+		this.enemyHealth += incoming;
+	}
+
+	@Override
+	public int getDamage()
+	{
+		return this.enemyDamage;
+	}
+
+	@Override
+	public void setDamage(int newDamage)
+	{
+		this.enemyDamage += newDamage;
+		
+	}
+
+	@Override
+	public int getLevel()
+	{
+		return this.enemyLevel;
+	}
+
+	@Override
+	public void setLevel()
+	{
+		this.enemyLevel++;
+		
+	}
+
+	@Override
+	public String getArmor()
+	{
+		String eArmor = Integer.toString(this.enemyArmor);
+		return eArmor;
+	}
+
+	@Override
+	public void setArmor(int newArmor)
+	{
+		this.enemyArmor = newArmor;
+		
 	}
 	
 	//toString method to print enemy object properties
@@ -88,5 +144,7 @@ public class Enemy extends Entities{
 		
 		//System.out.println(Trivia.getQuestion(0));	
 	}
+
+	
 		
 }

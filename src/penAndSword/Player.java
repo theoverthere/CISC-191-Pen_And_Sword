@@ -6,14 +6,14 @@ import java.util.*;
  */
 public class Player extends Entities {
 //fields
-	private static int playerHealth = 10;
-	private static int playerExp = 0;
-	private static int playerArmor = 0;
-	private static int playerDamage = 1; // slash weapon
-	private static int playerMoney = 0;
-	private static int playerLevel = 1;
-	private static String playerName = "";
-	public static Player player1;
+	private int playerHealth;
+	private int playerExp;
+	private int playerArmor;
+	private int playerDamage; // slash weapon
+	private int playerMoney;
+	private int playerLevel;
+	private String playerName = "";
+	public static Player player1 = new Player("Duncan");
 	//data structure to hold items that the player finds on their journey
 	private static List<Items> playerInventory = new ArrayList<>();
 
@@ -22,21 +22,34 @@ public class Player extends Entities {
 //constructor
 	public Player(String newName) 
 	{
-		super(newName, playerHealth, playerDamage, playerLevel);
-		this.playerExp = playerExp;
-		this.playerArmor = playerArmor;
-		this.playerMoney = playerMoney;	
+		super();
+		this.playerName = newName;
+		this.playerHealth = 10;
+		this.playerDamage = 5;
+		this.playerLevel = 1;
+		this.playerExp = 0;
+		this.playerArmor = 5;
+		this.playerMoney = 0;	
+	}
+	
+	public String getName() 
+	{
+		return this.playerName;
 	}
 
 //gets player health
-	public static String getPlayerHealth(Player player) {
-		String pHealth = Integer.toString(player.playerHealth);
+	@Override
+	public String getHealth() 
+	{
+		String pHealth = Integer.toString(this.playerHealth);
 		return pHealth;
 	}
 
 //takes or gives player health
-	public void changePlayerHealth(Player player, int incoming) {
-		player.playerHealth += incoming;
+	@Override
+	public void setHealth(int incoming) 
+	{
+		this.playerHealth += incoming;
 	}
 
 //gets players EXP
@@ -51,14 +64,17 @@ public class Player extends Entities {
 	}
 
 //gets player armor
-	public static String getPlayerArmor(Player player) {
-		String pArmor = Integer.toString(playerArmor);
+	@Override
+	public String getArmor() {
+		String pArmor = Integer.toString(this.playerArmor);
 		return pArmor;
 	}
 
 //replaces the player armor with incoming armor
-	public void changePlayerArmor(Player player, int newPlayerArmor) { // replaces armor does not increase it
-		player.playerArmor = newPlayerArmor;
+	@Override
+	public void setArmor(int newArmor) 
+	{ 
+		this.playerArmor = newArmor;
 	}
 
 //returns player money
@@ -67,27 +83,35 @@ public class Player extends Entities {
 	}
 
 //changes player money
-	public void changePlayerMoney(Player player, int newPlayerMoney) {
+	public void changePlayerMoney(Player player, int newPlayerMoney) 
+	{
 		player.playerMoney += newPlayerMoney;
 	}
 
 	// gets player damage
-	public int getPlayerDamage(Player player) {
-		return player.playerDamage;
+	@Override
+	public int getDamage() 
+	{
+		return this.playerDamage;
 	}
 
 	// replaces player damage with new player damage
-	public void changePlayerDamage(Player player, int newPlayerDamage) { // replaces damage does not increase it
-		player.playerDamage = newPlayerDamage;
+	@Override
+	public void setDamage(int newDamage) 
+	{ 
+		this.playerDamage += newDamage;
 	}
 
-	public static int getPlayerLevel(Player player) {
-		return player.playerLevel;
+	@Override
+	public int getLevel() 
+	{
+		return this.playerLevel;
 	}
-
-	// replaces player damage with new player damage
-	public void changePlayerLevel(Player player) { // replaces damage does not increase it
-		player.playerLevel++;
+	
+	@Override
+	public void setLevel() 
+	{ 
+		this.playerLevel++;
 
 	}
 	public void addToInventory(Player player, Items newItem) {

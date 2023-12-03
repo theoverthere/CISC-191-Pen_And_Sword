@@ -10,8 +10,6 @@ abstract class Entities {
 	private int health;
 	private String name;
 	private int damage;
-	private int money;
-	private int experience;
 	private int level;
 	private int armor;
 	
@@ -32,31 +30,25 @@ abstract class Entities {
 		this.level = level;
 	}
 	
-	//abstract method for combat, will calculate damage done during one turn of combat
-	public void combat(int playerHealth, int playerDamage, int playerArmor, int enemyHealth, int enemyDamage)
-	{
-		
-	}
+	public abstract String getHealth();
 	
-	//abstract method to calculate the players damage values during combat
-	public void playerDamage(String playerWeapon, int playerDamage)
-	{
-		
-	}
+	public abstract void setHealth(int incoming);
 	
-	//abstract method to calculate players level
-	public void levelCounter(int playerLevel, int xpDrop)	
-	{
-		
-	}
+	public abstract int getDamage();
 	
-	//abstract method to calculate what amount of xp and which items an enemy drops on defeat
-	public void dropsDecider()
-	{
+	public abstract void setDamage(int newDamage);
+	
+	public abstract int getLevel();
+	
+	public abstract void setLevel();
+	
+	public abstract String getArmor();
+	
+	public abstract void setArmor(int newArmor);
 		
 	}
 	
 	
 	
 
-}
+

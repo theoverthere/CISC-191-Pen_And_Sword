@@ -44,6 +44,7 @@ public class GUIView extends GUIController
 	//fields for east and west panel components
 	private static JLabel bgLabel;
 	private static JLabel invSlot1,invSlot2,invSlot3, invSlot4, invSlot5,invSlot6, invSlot7, invSlot8;
+	private static JLabel playerName;
 	private static JLabel playerHealth;
 	private static JLabel playerArmor;
 	private static JLabel equippedWeapon;
@@ -327,12 +328,14 @@ public class GUIView extends GUIController
 			
 			topWestPanel = new JPanel();
 			topWestPanel.setLayout(new GridLayout(4, 1));
-			playerHealth = new JLabel("Health: " + Player.getPlayerHealth(Player.player1));
-			playerArmor = new JLabel("Armor: " + Player.getPlayerArmor(Player.player1));
+			playerName = new JLabel(Player.player1.getName());
+			playerHealth = new JLabel("Health: " + Player.player1.getHealth());
+			playerArmor = new JLabel("Armor: " + Player.player1.getArmor());
 			equippedWeapon = new JLabel("sword_picture.jpg");
 			levelUpProgress = new JProgressBar(1, 10);
 			levelUpProgress.setBounds(1, 1, 5, 2);
 			levelUpProgress.setValue(5);
+			topWestPanel.add(playerName);
 			topWestPanel.add(playerHealth);
 			topWestPanel.add(playerArmor);
 			topWestPanel.add(equippedWeapon);
