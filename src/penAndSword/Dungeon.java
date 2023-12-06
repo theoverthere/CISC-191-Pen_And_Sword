@@ -28,31 +28,33 @@ public class Dungeon
 	private int diceRoll;
 	private static boolean coins;
 	//fields for initializing dungeon objects (with intro text and bg picture)
-	private String openingText;
+	String openingText;
 	private BufferedImage bg;
 	//fields for exporting finalized dungeon
-	private Dungeon dungeon;
-	private final int finalCoins;
-	private final List<Enemy> finalEnemies;
+	private Dungeon finalDungeon;
+	static Dungeon GUIdungeon;
+	private static Dungeon newDungeon;
+	final int finalCoins;
+	final List<Enemy> finalEnemies;
 	private final Items[] finalItems;
 	
 	//array list to hold opening lines upon entering a dungeon level
 	private static List<Dungeon> dungeonRooms = new ArrayList<>();
 	
 	//constructor to initialize dungeon opening texts and backgorund images
-	public Dungeon(String newOpeningText, String bgPath) 
+	public Dungeon(String newOpeningText)//, String bgPath) 
 	{
 		this.openingText = newOpeningText;
 		BufferedImage BGImage = null;
-		try 
-		{
-			BGImage = ImageIO.read(new File(bgPath));
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		this.bg = BGImage;
+//		try 
+//		{
+//			BGImage = ImageIO.read(new File(bgPath));
+//		} 
+//		catch (IOException e) 
+//		{
+//			e.printStackTrace();
+//		}
+//		this.bg = BGImage;
 		this.finalCoins = 0;
 		this.finalEnemies = null;
 		this.finalItems = null;
@@ -63,16 +65,16 @@ public class Dungeon
 	//constructor to append a value for coins, enemies, and items to each generated dungeon
 	public Dungeon(Dungeon dungeon, int numCoins2, List<Enemy> dungeonEnemies, Items[] item)
 	{
-		this.dungeon = dungeon;
+		this.openingText = dungeon.openingText;
 		this.finalCoins = numCoins2;
 		this.finalEnemies = dungeonEnemies;
 		this.finalItems = item;
 		
 	}
-	
-	private static Dungeon d1 = new Dungeon("You enter a dark room, rats scurry past your feet as the door opens. Various metal instruments can be seen hanging from the ceiling, glimmering as the light from the doorway enters the room. This appears to be some kind of dungeon", "./Images/RatDungeon.png");
-	private static Dungeon d2 = new Dungeon("As you open the door ahead of you, you are blinded by the outside light! Your vision begins to normalize and you see that you are in a courtyard, trees everywhere. You spy another doorway at the opposite end of the courtyard", "./Images/TreeCourtyard.png");
-	private static Dungeon d3 = new Dungeon("The heavy door creaks open, revealing a long hallway ahead of you. The passageway is lined with suits of armor and armaments belonging to those who must've built this place", "./Images/SuitsOfArmor.png");
+
+	private static Dungeon d1 = new Dungeon("You enter a dark room, rats scurry past your feet as the door opens. Various metal instruments can be seen hanging from the ceiling, glimmering as the light from the doorway enters the room. This appears to be some kind of dungeon");//, "./Images/RatDungeon.png");
+	private static Dungeon d2 = new Dungeon("As you open the door ahead of you, you are blinded by the outside light! Your vision begins to normalize and you see that you are in a courtyard, trees everywhere. You spy another doorway at the opposite end of the courtyard");//, "./Images/TreeCourtyard.png");
+	private static Dungeon d3 = new Dungeon("The heavy door creaks open, revealing a long hallway ahead of you. The passageway is lined with suits of armor and armaments belonging to those who must've built this place");//, "./Images/SuitsOfArmor.png");
 	
 	/*
 	 * Purpose: this method will be used to generate a new dungeon each time it is called. 
@@ -81,7 +83,7 @@ public class Dungeon
 	 * 
 	 * @param: int playerLevel
 	 */
-	public static void dungeonLevel(int playerLevel) 
+	public static Dungeon dungeonLevel(int playerLevel) 
 	{
 		//decide if dungeon will have coins
 		Random random = new Random();
@@ -96,22 +98,23 @@ public class Dungeon
 				numEnemies = 2;
 				numLoot = 1;
 				coins = true;
-				generateDungeon(playerLevel, numEnemies, numLoot, coins);
+				newDungeon = generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
 			if(playerLevel > 2 && playerLevel <= 4) 
 			{
 				numEnemies = 3;
 				numLoot = 2;
 				coins = true;
-				generateDungeon(playerLevel, numEnemies, numLoot, coins);
+				newDungeon = generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
 			if(playerLevel >4) 
 			{
 				numEnemies = 4;
 				numLoot = 3;
 				coins = true;
-				generateDungeon(playerLevel, numEnemies, numLoot, coins);
+				newDungeon = generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
+			return newDungeon;
 		}
 		//if diceRoll was less than 5 than there is no coins in dungeon
 		else 
@@ -121,30 +124,31 @@ public class Dungeon
 				numEnemies = 2;
 				numLoot = 1;
 				coins = false;
-				generateDungeon(playerLevel, numEnemies, numLoot, coins);
+				newDungeon = generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
 			if(playerLevel > 2 && playerLevel <= 4) 
 			{
 				numEnemies = 3;
 				numLoot = 2;
 				coins = false;
-				generateDungeon(playerLevel, numEnemies, numLoot, coins);
+				newDungeon = generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
 			if(playerLevel >4) 
 			{
 				numEnemies = 4;
 				numLoot = 3;
 				coins = false;
-				generateDungeon(playerLevel, numEnemies, numLoot, coins);
+				newDungeon = generateDungeon(playerLevel, numEnemies, numLoot, coins);
 			}
 		}
+		return newDungeon;
 	}
 	
 	/*
 	 * Purpose: The generateDungeon method uses the parameters passed by the dungeonLevel method to decide what exactly is spawned into each new dungeon
 	 * 
 	 * @param: int playerLevel, int enemies, int loot, boolean coins
-	 * @return: String "dungeon text"
+	 * @return: Dungeon dungeon
 	 */
 	@SuppressWarnings("null")
 	public static Dungeon generateDungeon(int playerLevel, int enemies, int loot, boolean coins) 
@@ -201,9 +205,16 @@ public class Dungeon
 		return null;
 	}
 	
-	public void main(String[] args) 
+	public static String printDungeon(Dungeon dungeon) 
+	{
+		return "Intro text: " + dungeon.openingText + "Enemies: " + dungeon.finalEnemies + "Coins: " + dungeon.finalCoins;
+	}
+	
+	public void main(String[] args) throws InvalidInputException 
 	{
 		//System.out.println(openingText);
-		System.out.println(bossLevel(5));
+		//System.out.println(bossLevel(5));
+	
+		
 	}
 }

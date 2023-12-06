@@ -202,7 +202,7 @@ public class GUIView extends GUIController
 			
 			nameHere = new JFormattedTextField("Please enter your name:");
 			beginContainer.add(nameHere);
-			nameInput = new JTextField("");
+			nameInput = new JTextField("               ");
 			beginContainer.add(nameInput);
 			
 			begin = new JButton("Begin Journey");
@@ -219,6 +219,7 @@ public class GUIView extends GUIController
 		/////////////////////Main panel///////////////////////////////////////////////////////////
 		public static void createMainScreen() 
 		{
+			beginFrame.dispose();
 			mainFrame = new JFrame();
 			
 			final int WINDOW_WIDTH = 1200;
@@ -262,7 +263,7 @@ public class GUIView extends GUIController
 			centerPanelComponents = new JPanel();
 			adventureText = new JTextArea();
 			adventureText.setEditable(false);
-			adventureText.setText("This is where the text describing the game and enemies will be");
+			adventureText.setText(BeginScreenHandler.getDungeonText(BeginScreenHandler.theDungeon));
 			centerPanelComponents.add(adventureText);	
 		}
 		
@@ -290,6 +291,7 @@ public class GUIView extends GUIController
 		{
 			bottomPanel = new JPanel();
 			playerInputField = new JFormattedTextField();
+			playerInputField.setSize(50, 25);
 			playerInputField.setText("This is where player input will be");
 			playerInputField.setFont(customFont);
 			enterButton = new JButton("Submit");
@@ -327,10 +329,15 @@ public class GUIView extends GUIController
 			westPanel.setLayout(new GridLayout(2, 1));
 			
 			topWestPanel = new JPanel();
-			topWestPanel.setLayout(new GridLayout(4, 1));
-			playerName = new JLabel(Player.player1.getName());
-			playerHealth = new JLabel("Health: " + Player.player1.getHealth());
-			playerArmor = new JLabel("Armor: " + Player.player1.getArmor());
+			topWestPanel.setLayout(new GridLayout(5, 1));
+			playerName = new JLabel(GUIController.player1.getName());
+			playerName.setOpaque(true);
+			playerName.setBackground(Color.blue);
+			playerName.setForeground(Color.black);
+			playerName.setFont(new Font("Serif", Font.ITALIC, 50));
+			
+			playerHealth = new JLabel("Health: " + GUIController.player1.getHealth());
+			playerArmor = new JLabel("Armor: " + GUIController.player1.getArmor());
 			equippedWeapon = new JLabel("sword_picture.jpg");
 			levelUpProgress = new JProgressBar(1, 10);
 			levelUpProgress.setBounds(1, 1, 5, 2);
@@ -385,8 +392,8 @@ public class GUIView extends GUIController
 		 
 		public static void main(String[] args) 
 		{	 
-			//GUIView gui = new GUIView();
-			createMainScreen();
+			GUIView gui = new GUIView();
+			//createMainScreen();
 			//createBeginScreen();
 		}
 

@@ -123,22 +123,22 @@ public class Trivia
 		int playerInput;
 		
 		
-		System.out.println(getQuestion(0));
+		System.out.println(getQuestion(1));
 		System.out.print("Choices: ");
-		System.out.println(getAnswerChoices(0));
+		System.out.println(getAnswerChoices(1));
 		playerInput = sc.nextInt();
 		while(answeredCorrectly == false) 
 		{
-			if(checkAnswer(playerInput, getSolution(0)) == true)
+			if(checkAnswer(playerInput, getSolution(1)) == true)
 				{
 					System.out.println("That is the correct answer!");
 				}
 			else 
 			{
 				System.out.println("Wrong again bucko!");
-				System.out.println(getQuestion(0));
+				System.out.println(getQuestion(1));
 				System.out.print("Choices: ");
-				System.out.println(getAnswerChoices(0));
+				System.out.println(getAnswerChoices(1));
 				playerInput = sc.nextInt();
 			}
 		}

@@ -14,6 +14,7 @@ public class Player extends Entities {
 	private int playerLevel;
 	private String playerName = "";
 	public static Player player1 = new Player("Duncan");
+ int levelCounter;
 	//data structure to hold items that the player finds on their journey
 	private static List<Items> playerInventory = new ArrayList<>();
 
@@ -29,7 +30,8 @@ public class Player extends Entities {
 		this.playerLevel = 1;
 		this.playerExp = 0;
 		this.playerArmor = 5;
-		this.playerMoney = 0;	
+		this.playerMoney = 0;
+		this.levelCounter = 0;
 	}
 	
 	public String getName() 

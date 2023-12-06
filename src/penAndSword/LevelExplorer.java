@@ -8,95 +8,16 @@ import java.util.Scanner;
  */
 public class LevelExplorer
 {
-	private int currentXP = Player.player1.getLevel();
-	private static int currentLevel = 1;
+	private static int currentXP = Player.player1.getLevel();
 	private static int numLevels;
 	private static int finalLevel = 15;
+	private static Dungeon dungeon;
 	
 	Scanner sc = new Scanner(System.in);
 	
-	/*
-	 * Purpose: the nextLevel method will take in input from the player and check the players level to 
-	 * determine which type of level will be loaded next
-	 * 
-	 * @param: int input
-	 */
-	public void nextLevel(int input) throws InvalidInputException
+	public static int playerChooseNextLevel(int input) throws InvalidInputException
 	{
-		if(currentLevel == 1) 
-		{
-			currentLevel++;
-			Dungeon.dungeonLevel(currentXP);
-		}
-		if(currentLevel > 1 && currentLevel < 5) 
-		{
-			currentLevel++;
-			//System.out.println("Where would you like to go next?");
-			int nextLevel1 = playerChooseNextLevel(input); 
-			switch(nextLevel1) 
-			{
-				case 1:
-					Dungeon.dungeonLevel(currentXP);
-					break;
-				case 2:
-					Store.populateShopInventory();
-					break;		
-			}
-		if(currentLevel == 5) 
-		{
-			currentLevel++;
-			Dungeon.bossLevel(currentXP);
-		}
-		if(currentLevel > 5 && currentLevel < 10) 
-		{
-			currentLevel++;
-			//System.out.println("Where would you like to go next?");
-			int nextLevel2 = playerChooseNextLevel(input);
-			switch(nextLevel2) 
-			{
-				case 1:
-					Dungeon.dungeonLevel(currentXP);
-					break;
-				case 2:
-					Store.populateShopInventory();
-					break;		
-			}
-		}
-		if(currentLevel == 10) 
-		{
-			currentLevel++;
-			Dungeon.bossLevel(currentXP);
-		}
-		if(currentLevel > 10 && currentLevel < 15) 
-		{
-			currentLevel++;
-			System.out.println("Where would you like to go next?");
-			int nextLevel3 = playerChooseNextLevel(input);
-			switch(nextLevel3) 
-			{
-				case 1:
-					Dungeon.dungeonLevel(currentXP);
-					break;
-				case 2:
-					Store.populateShopInventory();
-					break;		
-			}
-		}
-		if(currentLevel == 15) 
-		{
-			currentLevel++;
-			Dungeon.bossLevel(currentXP);
-		}
-		else 
-		{
-			//Dungeon.gameOver();
-		}
-		}
-	}
-	
-	public int playerChooseNextLevel(int input) throws InvalidInputException
-	{
-		if(input < 0 || input > 2)
+		if(input < 1 || input > 2)
 		{
 			throw new InvalidInputException("Input must be between 1-2");
 		}
@@ -106,8 +27,82 @@ public class LevelExplorer
 		}
 	}
 	
+	public static void levelChooser(int input)
+	{
+		switch(input) 
+		{
+			case 1:
+				nextLevel();
+//			case 2:
+//				nextShop();
+		}
+	}
+	
+	/*
+	 * Purpose: the nextLevel method will take in input from the player and check the players level to 
+	 * determine which type of level will be loaded next
+	 * 
+	 * @param: int input
+	 */
+	public static Dungeon nextLevel()
+	{
+		if(Player.player1.levelCounter == 0) 
+		{
+			Player.player1.levelCounter++;
+			dungeon = Dungeon.dungeonLevel(currentXP);	
+		}
+		if(Player.player1.levelCounter > 1 && Player.player1.levelCounter < 5) 
+		{
+			Player.player1.levelCounter++;
+			dungeon = Dungeon.dungeonLevel(currentXP);					
+		}
+		if(Player.player1.levelCounter == 5) 
+		{
+			Player.player1.levelCounter++;
+			Dungeon.bossLevel(currentXP);
+		}
+		if(Player.player1.levelCounter > 5 && Player.player1.levelCounter < 10) 
+		{
+			Player.player1.levelCounter++;
+			System.out.println("level 5 - 10");
+			Dungeon.dungeonLevel(currentXP);				
+		}
+		if(Player.player1.levelCounter == 10) 
+		{
+			Player.player1.levelCounter++;
+			Dungeon.bossLevel(currentXP);
+		}
+		if(Player.player1.levelCounter > 10 && Player.player1.levelCounter < 15) 
+		{
+			Player.player1.levelCounter++;
+			System.out.println("level 10 - 15");
+			Dungeon.dungeonLevel(currentXP);		
+		}
+		if(Player.player1.levelCounter == 15) 
+		{
+			Player.player1.levelCounter++;
+			Dungeon.bossLevel(currentXP);
+		}
+		
+		else 
+		{
+			//Dungeon.gameOver();
+		}
+		return dungeon;
+		}
+	
+//	public static Shop nextShop()
+//	{
+//		return populateShop();
+//	}
+	
+	
+	
+	
+	
 	public static void main(String[] args) throws InvalidInputException 
 	{
-		//nextLevel(2);
+		//nextLevel(1);
+		System.out.println(nextLevel());
 	}
 }
