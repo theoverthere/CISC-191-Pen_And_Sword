@@ -308,8 +308,10 @@ public class GUIView extends GUIController
 			invSlot1 = new JLabel(icon);
 			invSlot2 = new JLabel("item2");
 			invSlot2.setFont(customFont);
-			invSlot3 = new JLabel("item3");
-			invSlot4 = new JLabel("item4");
+			invSlot3 = new JLabel(Items.armorstatus);//armor
+			
+			invSlot4 = new JLabel("item4");//weapon
+
 			invSlot5 = new JLabel("item5");
 			invSlot6 = new JLabel("item6");
 			invSlot7 = new JLabel("item7");

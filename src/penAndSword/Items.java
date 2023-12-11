@@ -41,7 +41,7 @@ public static void armorStatus() {
 	System.out.println("equipped armor value: "+armorValue);
 	System.out.println("equipped armor name: " +armorName);}
 	public static int getArmorStats() {
-		return armorValue;
+		return armorName+" "+armorValue;
 	}
 public static void equipTheWeapon(int value, String name) {
 	damageValue = value;
