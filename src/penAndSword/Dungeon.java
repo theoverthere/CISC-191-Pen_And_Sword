@@ -45,7 +45,7 @@ public class Dungeon
 	public Dungeon(String newOpeningText)//, String bgPath) 
 	{
 		this.openingText = newOpeningText;
-		BufferedImage BGImage = null;
+//		BufferedImage BGImage = null;
 //		try 
 //		{
 //			BGImage = ImageIO.read(new File(bgPath));

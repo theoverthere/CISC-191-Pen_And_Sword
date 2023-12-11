@@ -22,7 +22,7 @@ public class GUIView extends GUIController
 	TitleScreenHandler tsHandler = new TitleScreenHandler();
 	static IntroScreenHandler inHandler = new IntroScreenHandler();
 	static BeginScreenHandler bgHandler = new BeginScreenHandler();
-	JPanel introPanel;
+	static JPanel introPanel;
 	
 	//fields for main screen frame and panels
 	private static JFrame mainFrame;
@@ -49,7 +49,8 @@ public class GUIView extends GUIController
 	private static JLabel playerArmor;
 	private static JLabel equippedWeapon;
 	private static JProgressBar levelUpProgress;
-	private static JLabel portrait1, portrait2, portrait3, portrait4;
+	private static JLabel portrait0, portrait1, portrait2, portrait3;
+	JLabel[] portraits = {portrait0, portrait1, portrait2, portrait3};
 	
 	//fields for begin screen
 	private static JFormattedTextField nameHere;
@@ -270,7 +271,7 @@ public class GUIView extends GUIController
 		private static void createCenterPanelBackground() 
 		{	
 			centerPanelBackground = new JPanel(new BorderLayout());
-			ImageIcon backGround = new ImageIcon("Images/health_potion.jpg");
+			ImageIcon backGround = new ImageIcon("Images/healthpotion.jpg");
 			bgLabel = new JLabel(backGround);
 			centerPanelBackground.add(bgLabel, BorderLayout.CENTER);
 			centerPanelBackground.setPreferredSize(new Dimension(backGround.getIconWidth(), backGround.getIconHeight()));
@@ -303,7 +304,7 @@ public class GUIView extends GUIController
 		{
 			eastPanel = new JPanel();
 			eastPanel.setLayout(new GridLayout(4, 2));
-			ImageIcon icon = new ImageIcon("Images/health_potion.jpg");
+			ImageIcon icon = new ImageIcon("Images/healthpotion.jpg");
 			invSlot1 = new JLabel(icon);
 			invSlot2 = new JLabel("item2");
 			invSlot2.setFont(customFont);
@@ -351,14 +352,45 @@ public class GUIView extends GUIController
 			
 			bottomWestPanel = new JPanel();
 			bottomWestPanel.setLayout(new GridLayout(2, 2));
-			portrait1 = new JLabel("portrait1");
-			portrait2 = new JLabel("portrait2");
-			portrait3 = new JLabel("portrait3");
-			portrait4 = new JLabel("portrait4");
-			bottomWestPanel.add(portrait1);
-			bottomWestPanel.add(portrait2);
-			bottomWestPanel.add(portrait3);
-			bottomWestPanel.add(portrait4);
+			portrait0 = new JLabel("1");
+			portrait1 = new JLabel("2");
+			portrait2 = new JLabel("3");
+			portrait3 = new JLabel("4");
+//			if(BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(0) != null) 
+//			{
+//				ImageIcon icon1 = BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(0).icon;
+//				portrait1 = new JLabel(icon1);
+//			}
+//			else 
+//			{
+//				portrait1 = new JLabel("null");
+//			}
+			
+			for(int i = 0; i < BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).size() - 1; i++) 
+			{
+				if(BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(i) != null) 
+				{
+					ImageIcon icon1 = new ImageIcon(BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(i).iconPath);
+					ImageIcon icon2 = new ImageIcon("Images/goblin.jpg");
+					JLabel test = new JLabel(icon1);
+					test.setIcon(icon1);
+					bottomWestPanel.add(test);
+				}
+				else 
+				{
+//					portraits[i] = new JLabel("null");
+//					bottomWestPanel.add(portraits[i]);
+				}
+			}
+			
+			
+			
+			
+			
+//			bottomWestPanel.add(portrait1);
+//			bottomWestPanel.add(portrait2);
+//			bottomWestPanel.add(portrait3);
+//			bottomWestPanel.add(portrait4);
 			westPanel.add(bottomWestPanel);	
 		}
 		
@@ -398,3 +430,5 @@ public class GUIView extends GUIController
 		}
 
 }
+
+

@@ -19,24 +19,30 @@ public class Store {
 	static boolean affordArmor;
 	static boolean affordWeapon;
 
-	public static void populateShopInventory() {
-		Items shopInv = new Items();
-		HashMap<String, Integer> armors = shopInv.getarmorsMap1();
-		// System.out.println(armors);
+	public static String Constructor1;
+	public static String Constructor2;
 
-		// HashMap<String, Integer> shopInventory = new HashMap<>();
+	public Store() {
+		this.Constructor1=greetingsDecider();
+		this.Constructor2=populateShopInventory();}
+
+	public static String populateShopInventory() { //makes generates the weapon and armor and sells loot.
+		Items shopInv = new Items();
 		armorSlot = shopInv.getOneArmor();
 		weaponSlot = shopInv.getOneWeapon();
-
 		transArmor = armorSlot;
 		transWeapon = weaponSlot;
+		String generate = "==========================/n"+armorSlot+"/n==========================/n"+
+				weaponSlot+"==========================/n"+"==========================/n"+"you currently have " + shopInv.purse + " coins";
 		System.out.println("==========================");
 		System.out.println(armorSlot);
 		System.out.println("==========================");
 		System.out.println(weaponSlot);
 		System.out.println("==========================");
 		System.out.println("you currently have " + shopInv.purse + " coins");
-	}
+		Items.sellLoot();
+		Constructor2=generate;
+		return Constructor2;}
 
 	// buy method needs to call the trasaction method in items and needs to somehow
 	// give a price to the armor value and weapon value
@@ -46,50 +52,51 @@ public class Store {
 		// needs multiple if statements for all the possible weapons and armors
 		Items s = new Items();
 		if (transArmor.contains("Plate")) {
-			affordArmor = s.Transaction(3);
+			affordArmor = s.Transaction(8);//price for the item
 			if (affordArmor == true) {
-				s.equipArmor(4, "Plate Armor");
-			}
-		}
-		if (transArmor.contains("Steel")&&s.armorName!="Steel Armor") {
-			affordArmor = s.Transaction(6);
+				s.equipArmor(4, "Plate Armor");}}//equipes the damage and name to items
+		if (transArmor.contains("Steel")) {
+			affordArmor = s.Transaction(11);
 			if (affordArmor == true) {
-				s.equipArmor(6, "Steel Armor");
-			}
-		}
-		if (transArmor.contains("Leather")&&s.armorName!="Leather Armor") {
-			affordArmor = s.Transaction(1);
+				s.equipArmor(6, "Steel Armor");}}
+		if (transArmor.contains("Leather")) {
+			affordArmor = s.Transaction(5);
 			if (affordArmor == true) {
-				s.equipArmor(3, "Leather Armor");
-			}
-		}
-	}
-
+				s.equipArmor(3, "Leather Armor");}}
+		if (transArmor.contains("Mith")) {
+			affordArmor = s.Transaction(18);
+			if (affordArmor == true) {
+				s.equipArmor(9, "Mithril armor");}}
+		if (transArmor.contains("Ancient")) {
+			affordArmor = s.Transaction(23);
+			if (affordArmor == true) {
+				s.equipArmor(12, "Ancient armor");}}}
+		
 	public static void buyWeapon() {
-		// needs multiple if statements for all the possible weapons and armors
+		
 		Items d = new Items();
 		if (transWeapon.contains("Basic")) {
-			affordWeapon = d.Transaction(2);
+			affordWeapon = d.Transaction(6);
 			if (affordWeapon == true) {
-				d.equipTheWeapon(1, "Basic Sword");
+				d.equipTheWeapon(2, "Basic Sword");
 			}
 		}
 		if (transWeapon.contains("Spear")) {
-			affordWeapon = d.Transaction(3);
+			affordWeapon = d.Transaction(8);
 			if (affordWeapon == true) {
-				d.equipTheWeapon(2, "Spear");
+				d.equipTheWeapon(3, "Spear");
 			}
 		}
 		if (transWeapon.contains("Broad")) {
-			affordWeapon = d.Transaction(4);
+			affordWeapon = d.Transaction(10);
 			if (affordWeapon == true) {
-				d.equipTheWeapon(3, "Copper Broadsword");
+				d.equipTheWeapon(5, "Copper Broadsword");
 			}
 		}
 		if (transWeapon.contains("Heavy")) {
-				affordWeapon = d.Transaction(6);
+				affordWeapon = d.Transaction(15);
 				if (affordWeapon == true) {
-					d.equipTheWeapon(5, "Heavy Jade Hammer");
+					d.equipTheWeapon(7, "Heavy Jade Hammer");
 				}
 			}
 		}

@@ -1,6 +1,12 @@
 package penAndSword;
 import java.util.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -15,6 +21,9 @@ public class Enemy extends Entities{
 	private String enemyName;
 	private int enemyLevel;
 	private int enemyArmor;
+	ImageIcon icon;
+	String iconPath;
+	//private BufferedImage bg;
 	
 	//instantiate data structure to hold created enemies and sort by level
 	public static Hashtable<Integer, List<Enemy>> theHorde = new Hashtable<>();
@@ -59,22 +68,34 @@ public class Enemy extends Entities{
 	}
 	
 	//Parameterized constructor, receives enemy health, damage, name, and level
-	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, int newEnemyLevel, int newEnemyArmor)
+	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, int newEnemyLevel, int newEnemyArmor, String imgPath)
 	{
 		super();
-		enemyName = newEnemyName;
-		enemyHealth = newEnemyHealth;
-		enemyDamage = newEnemyDamage;
-		enemyLevel = newEnemyLevel;
-		enemyArmor = newEnemyArmor;
+		this.enemyName = newEnemyName;
+		this.enemyHealth = newEnemyHealth;
+		this.enemyDamage = newEnemyDamage;
+		this.enemyLevel = newEnemyLevel;
+		this.enemyArmor = newEnemyArmor;
+		this.icon = new ImageIcon(imgPath);
+		this.iconPath = imgPath;
+//		BufferedImage BGImage = null;
+//		try 
+//		{
+//			BGImage = ImageIO.read(new File(imgPath));
+//		} 
+//		catch (IOException e) 
+//		{
+//			e.printStackTrace();
+//		}
+//		this.bg = BGImage;
 		Enemy.addToHorde(newEnemyLevel, this);
 	}
 	
 	//area to create new enemy objects
-	static Enemy goblin = new Enemy(1, 1, "goblin", 1, 0);
-	static Enemy troll = new Enemy(5, 2, "troll", 1, 0);
-	static Enemy bandit = new Enemy(4, 3, "bandit", 1, 0);
-	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2, 0);
+	static Enemy goblin = new Enemy(1, 1, "goblin", 1, 0, "./Images/goblin.png");
+	static Enemy troll = new Enemy(5, 2, "troll", 1, 0, "./Images/troll.png");
+	static Enemy bandit = new Enemy(4, 3, "bandit", 1, 0, "./Images/goblin.png");
+	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2, 0, "./Images/goblin.png");
 	
 	//required methods
 	@Override

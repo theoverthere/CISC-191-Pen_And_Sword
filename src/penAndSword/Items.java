@@ -3,42 +3,68 @@ package penAndSword;
 import java.util.*;
 public class Items{
 
-	public static int damageValue=0;
-	public static String weaponName="nothing";
+	
+	public static int damageValue = 0;
+	public static String weaponName = "nothing";
 	private int healthValue;
-	public static int armorValue=0;
-	public static String armorName="nothing";
+	public static int armorValue = 0;
+	public static String armorName = "nothing";
 	public static int purse;
 	private static int EXP;
-	public static boolean backToStore=false;
+	public static boolean backToStore = false;
 	public String price2;
 	public String price1;
+	static String loot;
+	static int lootValue;
+	// strings to hold loot name in 7 slots
+	static ArrayList inventoryLootString = new ArrayList();
+
+	// integers to hold monetary values
+	static ArrayList inventoryLootValue = new ArrayList();
+	
+	
+	 static Queue<String> armorQueueName = new LinkedList<>();
 	
 	//called in store or after fight when new armor is equipped
 public static void equipArmor(int value, String name) {
-	armorValue = value;
-	armorName = name;
-}
+		armorValue = value;
+		armorName = name;
+		
+		Player.player1.setArmor(value);
+		//something wrong here
+		armorQueueName.poll();
+		armorQueueName.add(name);
+		}
+
 public static void armorStatus() {
 	System.out.println("++++++++++++++++++++++++");
 	System.out.println("equipped armor value: "+armorValue);
 	System.out.println("equipped armor name: " +armorName);}
+	public static int getArmorStats() {
+		return armorValue;
+	}
 public static void equipTheWeapon(int value, String name) {
 	damageValue = value;
 	weaponName = name;
+	
+	Player.player1.setDamage(value);
 }
 public static void weaponStatus() {
 	System.out.println("++++++++++++++++++++++++");
 	System.out.println("equipped weapon damage: "+damageValue);
 	System.out.println("equipped weapon name: " +weaponName);}
-	
+	public static int getWeaponStats() {
+		return damageValue;
+	}
 	 //string is the name and key, interger is the damage value or the armor value
-		public static HashMap<String, Integer> armor = new HashMap<>(); { //armor for shop
+		public static HashMap<String, Integer> armor = new HashMap<>();
+	{ // armor for shop
 		armor.put("Leather Armor", 3);
 		armor.put("Plate Armor", 4);
 		armor.put("Steel Armor", 6);
-		
-		}
+		armor.put("Mithril Armor", 9);
+		armor.put("Ancient Armor", 12);
+	}
 	public static HashMap<String, Integer> weapons = new HashMap<>();{ //weapons for shop
 		weapons.put("Basic Sword", 1);
 		weapons.put("Spear", 2);
@@ -57,45 +83,55 @@ public static void weaponStatus() {
 	public String getOneArmor() {
 		Object[] getArmor = armor.keySet().toArray();
 		Object key = getArmor[new Random().nextInt(getArmor.length)];
-		String arm = (String) key;   
-		//assigns "arm" to the key and will add the price after checking what type of armor it is
+		String arm = (String) key;
+		// assigns "arm" to the key and will add the price after checking what type of
+		// armor it is
 		if (arm.contains("Leather")) {
-			price1=" :: price= 1 coins";
+			price1 = " :: price= 5 coins";
 		}
 		if (arm.contains("Plate")) {
-			price1=" :: price= 3 coins";
+			price1 = " :: price= 8 coins";
 		}
 		if (arm.contains("Steel")) {
-			price1=" :: price= 6 coins";
+			price1 = " :: price= 11 coins";
 		}
-		
-		String output = "Armor slot: " + key + " :: Protection " +armor.get(key)+price1;
-		//String output = (String) key; //for the string like "leather armor"
-		//Integer output = armor.get(key); //for the integer like "3"
- 		return output;
+		if (arm.contains("Mith")) {
+			price1 = " :: price= 18 coins";
+		}
+		if (arm.contains("Ancient")) {
+			price1 = " :: price= 23 coins";
+			
+		}
+
+		String output = "Armor slot: " + key + " :: Protection " + armor.get(key) + price1;
+		// String output = (String) key; //for the string like "leather armor"
+		// Integer output = armor.get(key); //for the integer like "3"
+		return output;
 	}
+
 	public String getOneWeapon() {
-		
+
 		Object[] getArmor = weapons.keySet().toArray();
 		Object key = getArmor[new Random().nextInt(getArmor.length)];
 		String weap = (String) key;
-		//assigns "weap" to the key and will add the price after checking what type of weapon it is
+		// assigns "weap" to the key and will add the price after checking what type of
+		// weapon it is
 		if (weap.contains("Basic")) {
-			price2=" :: price= 2 coins";
+			price2 = " :: price= 6 coins";
 		}
 		if (weap.contains("Spear")) {
-			price2=" :: price= 3 coins";
+			price2 = " :: price= 8 coins";
 		}
 		if (weap.contains("Broad")) {
-			price2=" :: price= 4 coins";
+			price2 = " :: price= 10 coins";
 		}
 		if (weap.contains("Jade")) {
-			price2=" :: price= 6 coins";
+			price2 = " :: price= 15 coins";
 		}
-		String output = "Weapon slot: " + key + " :: Damage " +weapons.get(key)+price2;
-		//String output = (String) key; //for the string like "leather armor"
-		//Integer output = armor.get(key); //for the integer like "3"
-return output;}
+		String output = "Weapon slot: " + key + " :: Damage " + weapons.get(key) + price2;
+		// String output = (String) key; //for the string like "copper Broadsword"
+		// Integer output = armor.get(key); //for the integer like "3"
+		return output;}
 	public static void main(String[] args) {
 		
 
@@ -122,8 +158,12 @@ return output;}
 	public int giveOneCoin() {
 		return purse = getPurse() + 1;
 	}
-	public int giveXCoins(int x) {
+	public static int giveXCoins(int x) {
 		return purse = getPurse() + x;
+	}
+	public static int replaceXCoins(int x) {
+		purse = x;
+		return purse;
 	}
 
 	// takes the first value and minuses it by the second value
@@ -151,5 +191,85 @@ return output;}
 
 	public static int getPurse() {
 		return purse;
+	}
+	public static void regularAfterBattleLoot() {
+		final HashMap<String, Integer> poorCoins = new HashMap<>();
+		{
+			poorCoins.put("Small pouch of coins", 2);
+			poorCoins.put("Large stash of silver", 4);
+			poorCoins.put("Bronze trophy", 1);
+			poorCoins.put("Snail", 0);
+			poorCoins.put("Silver platter", 3);
+			poorCoins.put("Small idol of Xampthe the keyholder", 4);
+			poorCoins.put("Fork", 0);
+			poorCoins.put("Soldier rations",2);
+			poorCoins.put("American coin",1);
+			poorCoins.put("Gold nugget",2);
+			poorCoins.put("Broken sword handle",0);
+			poorCoins.put("Paper clip",0);
+			poorCoins.put("Fake jade ring", 1);
+			//more valuable and rare
+			poorCoins.put("Erdtree seed", 5);
+			poorCoins.put("Magic beans", 5);
+			poorCoins.put("Elder scroll", 6);
+			poorCoins.put("Golden Grasshopper", 7);
+		}
+		if (poorCoins.isEmpty()) {
+			throw new IllegalArgumentException("HashMap is empty");
+		}
+		if (Player.player1.getLevel() >= 1) {
+			int lootIndex = (int) (Math.random() * 5);
+
+			Object[] getLoot = poorCoins.keySet().toArray();
+
+			Object key = getLoot[new Random().nextInt(getLoot.length)];
+			loot = (String) key;
+			lootValue = poorCoins.get(key);
+			inventoryLootString.add(loot);
+			inventoryLootValue.add(lootValue);
+		}
+
+	}
+	public static void printAfterBattleLoot() { // ment to be used after the battle of regular enemies, will print out
+												// everything won
+		for (int i = 0; i < inventoryLootString.size(); i++) {
+			System.out.print("You have found a " + inventoryLootString.get(i));
+			System.out.print(" worth: " + inventoryLootValue.get(i) + " coin(s)");
+			System.out.println();
+		}
+	}
+	public static void sellLoot() {
+		 int totalValue = 0;
+		for (int i = 0; i < inventoryLootString.size(); i++) {
+			totalValue = totalValue + (int) inventoryLootValue.get(i);
+			giveXCoins(totalValue);
+			System.out.println("you have sold: " + inventoryLootString.get(i) + " you now have " + purse + " coin(s)");
+
+			inventoryLootString.remove(i);// will remove the loot at the index i
+			inventoryLootValue.remove(i);
+			totalValue = 0;
+			i--;
+		}
+
+	}
+	public static void printLootInInventory() {// ment to be held in a box in the main GUI to show player loot
+		for (int i = 0; i < inventoryLootString.size(); i++) {
+			System.out.println("loot: " + inventoryLootString.get(i) + " worth: " + inventoryLootValue.get(i));
+		}
+	}
+
+	public static String getPlayerToString() {// returns a tostring version of the loot
+		String Ret = inventoryLootString.toString();
+		return Ret;
+	}
+
+	public static String getPlayerLootAt(int i) {// retruns loot at a certain point
+		String nothing = "nothing";
+		if (inventoryLootString.get(i) == null) {// major problem cant call an index if there is nothing at the index
+			return nothing;
+		}
+		String Val1 = (String) inventoryLootString.get(i);
+		int val2 = (int) inventoryLootValue.get(i);
+		return "loot: " + Val1 + " worth: " + val2 + " coin(s).";
 	}
 }
