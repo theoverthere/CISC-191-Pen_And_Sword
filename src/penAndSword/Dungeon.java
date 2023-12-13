@@ -35,7 +35,7 @@ public class Dungeon
 	static Dungeon GUIdungeon;
 	private static Dungeon newDungeon;
 	final int finalCoins;
-	final List<Enemy> finalEnemies;
+	final Stack<Enemy> finalEnemies;
 	private final Items[] finalItems;
 	
 	//array list to hold opening lines upon entering a dungeon level
@@ -63,7 +63,7 @@ public class Dungeon
 	}
 	
 	//constructor to append a value for coins, enemies, and items to each generated dungeon
-	public Dungeon(Dungeon dungeon, int numCoins2, List<Enemy> dungeonEnemies, Items[] item)
+	public Dungeon(Dungeon dungeon, int numCoins2, Stack<Enemy> dungeonEnemies, Items[] item)
 	{
 		this.openingText = dungeon.openingText;
 		this.finalCoins = numCoins2;
@@ -154,13 +154,13 @@ public class Dungeon
 	public static Dungeon generateDungeon(int playerLevel, int enemies, int loot, boolean coins) 
 	{
 		//create an arraylist that will hold the enemies in the room
-		List<Enemy> dungeonEnemies = new ArrayList<>();
+		Stack<Enemy> dungeonEnemies = new Stack<>();
 		Items[] item = null;
 		Random random = new Random();
 		if(coins = true) {
 			for(int i = 0; i <= enemies; i++) 
 			{
-				dungeonEnemies.add(Enemy.theHorde.get(playerLevel).get(random.nextInt(0, Enemy.getHordeLength(playerLevel)-1)));
+				dungeonEnemies.push(Enemy.theHorde.get(playerLevel).get(random.nextInt(0, Enemy.getHordeLength(playerLevel)-1)));
 			}
 			for(int i= 0; i <= loot; i++) 
 			{
@@ -205,15 +205,41 @@ public class Dungeon
 		return null;
 	}
 	
+	public static String getDungeonText(Dungeon dungeon) 
+	{
+		return dungeon.openingText;
+	}
+	
+	public static Enemy getEnemy(Dungeon dungeon, int index) 
+	{
+		return dungeon.finalEnemies.elementAt(index);
+	}
+	
+	public static Stack<Enemy> getEnemies(Dungeon dungeon) 
+	{
+		return dungeon.finalEnemies;
+	}
+	
+	public static String getEnemyName(Enemy enemy) 
+	{
+		return Enemy.getName(enemy);
+	}
+	
+	public static String getEnemyHP(Enemy enemy) 
+	{
+		return enemy.getHealth();
+	}
+	
 	public static String printDungeon(Dungeon dungeon) 
 	{
 		return "Intro text: " + dungeon.openingText + "Enemies: " + dungeon.finalEnemies + "Coins: " + dungeon.finalCoins;
 	}
 	
-	public void main(String[] args) throws InvalidInputException 
+	public void main(String[] args)
 	{
 		//System.out.println(openingText);
-		//System.out.println(bossLevel(5));
+		System.out.println(bossLevel(5));
+		
 	
 		
 	}

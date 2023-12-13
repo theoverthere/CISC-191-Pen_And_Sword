@@ -16,6 +16,7 @@ public class GUIView extends GUIController
 	static JFrame window;
 	static JLabel backgroundLabel;
 	static JLabel introBackgroundLabel;
+	static JLabel gameOverScreen;
 	JButton titleButton;
 	static JButton introButton;
 	static JPanel startButtonPanel;
@@ -25,7 +26,7 @@ public class GUIView extends GUIController
 	static JPanel introPanel;
 	
 	//fields for main screen frame and panels
-	private static JFrame mainFrame;
+	static JFrame mainFrame;
 	private static JPanel mainPanel;
 	private static JLayeredPane centerPanelContainer;
 	private static JPanel centerPanelComponents;
@@ -37,9 +38,12 @@ public class GUIView extends GUIController
 	private static JPanel bottomWestPanel;
 	
 	//fields for center and bottom panel components
-	private static JTextArea adventureText;
+	private static JEditorPane adventureText;
+	static JEditorPane instructionText;
+	static JEditorPane riddleCombatText;
 	static JFormattedTextField playerInputField;
 	static JButton enterButton;
+	static submitListener sl = new submitListener();
 	
 	//fields for east and west panel components
 	private static JLabel bgLabel;
@@ -48,22 +52,22 @@ public class GUIView extends GUIController
 	private static JLabel playerHealth;
 	private static JLabel playerArmor;
 	private static JLabel equippedWeapon;
-	private static JProgressBar levelUpProgress;
+	public static JProgressBar levelUpProgress;
 	private static JLabel portrait0, portrait1, portrait2, portrait3;
-	JLabel[] portraits = {portrait0, portrait1, portrait2, portrait3};
+	static JLabel[] portraits = {portrait0, portrait1, portrait2, portrait3};
 	
 	//fields for begin screen
 	private static JFormattedTextField nameHere;
 	static JTextField nameInput;
 	private static JButton begin;
-	private static JFrame beginFrame;
+	static JFrame beginFrame;
 	private static JPanel beginPanel;
 	private static JPanel beginContainer;
 	
 	//fields for game over screen
 	
 	//custom font
-	static Font customFont = new Font(Font.DIALOG, Font.BOLD, 10);
+	static Font customFont = new Font("Serif", Font.ITALIC, 20);
 	
 	//////////////////////TITLE/////////////////////////	
 	public GUIView() 
@@ -191,7 +195,7 @@ public class GUIView extends GUIController
 			beginFrame = new JFrame();
 			// Set the size of the window.
 			beginFrame.setSize(1200, 700);
-
+			beginFrame.setBackground(new Color(167, 194, 192));
 			// Set the title.
 			beginFrame.setTitle("Pen & Sword");
 
@@ -203,11 +207,12 @@ public class GUIView extends GUIController
 			
 			nameHere = new JFormattedTextField("Please enter your name:");
 			beginContainer.add(nameHere);
+			nameHere.setEnabled(false);
 			nameInput = new JTextField("               ");
 			beginContainer.add(nameInput);
 			
 			begin = new JButton("Begin Journey");
-			begin.setBackground(new Color(167, 194, 192)); // Orange background
+			begin.setBackground(new Color(167, 194, 192)); // Orange background does not work
 			begin.setForeground(Color.WHITE); // White text color
 			begin.setFont(new Font("Serif", Font.BOLD, 30)); // Bold, larger font
 			begin.addActionListener(bgHandler);
@@ -220,7 +225,7 @@ public class GUIView extends GUIController
 		/////////////////////Main panel///////////////////////////////////////////////////////////
 		public static void createMainScreen() 
 		{
-			beginFrame.dispose();
+			
 			mainFrame = new JFrame();
 			
 			final int WINDOW_WIDTH = 1200;
@@ -230,6 +235,7 @@ public class GUIView extends GUIController
 			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			mainPanel = new JPanel(new BorderLayout());
 			mainFrame.setContentPane(mainPanel);
+			//mainFrame.setBackground(new Color(143, 184, 201));
 			
 			//centerPanelContainer = new JLayeredPane();
 			createCenterPanelComponents();
@@ -237,16 +243,16 @@ public class GUIView extends GUIController
 			//centerPanelContainer.add(centerPanelComponents);
 			//centerPanelContainer.add(centerPanelBackground);
 			mainPanel.add(centerPanelComponents, BorderLayout.CENTER);
-			
+			centerPanelComponents.setBackground(new Color(143, 184, 201));
 			createBottomPanel();
 			mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-			
+			bottomPanel.setBackground(new Color(143, 184, 201));
 			createEastPanel();
 			mainPanel.add(eastPanel, BorderLayout.EAST);
-			
+			eastPanel.setBackground(new Color(143, 184, 201));
 			createWestPanel();
 			mainPanel.add(westPanel, BorderLayout.WEST);	
-			
+			westPanel.setBackground(new Color(143, 184, 201));
 			//mainFrame.add(mainPanel);
 			mainFrame.setVisible(true);
 		}
@@ -254,19 +260,65 @@ public class GUIView extends GUIController
 		///////////////////Game over/////////////////////////////////////////////////////////////
 		public static void createGameOverScreen() 
 		{
-			
-		}
+				// makes a new image and applies it to introimage
+				BufferedImage introImage = null;
+				try {
+					introImage = ImageIO.read(new File(
+							"./Images/gameOverScreen.jpg"));} 
+				catch (IOException e) {
+					e.printStackTrace();}
+				gameOverScreen = new JLabel(new ImageIcon(introImage));
+				// displays everything
+				window.add(gameOverScreen);
+				window.setVisible(true);
+			}
 		
 		
 		///////////////////////////////Components and Panels///////////////////////////////////////
 		private static void createCenterPanelComponents() 
 		{
+			if(LevelExplorer.getIsDungeon() == true) 
+			{
 			centerPanelComponents = new JPanel();
-			adventureText = new JTextArea();
+			adventureText = new JEditorPane();
+			adventureText.setBounds(0, 0, 500, 200);
+			adventureText.setFont(customFont);;
 			adventureText.setEditable(false);
-			adventureText.setText(BeginScreenHandler.getDungeonText(BeginScreenHandler.theDungeon));
+			adventureText.setText(Dungeon.getDungeonText(BeginScreenHandler.theDungeon));
+			instructionText = new JEditorPane();
+			instructionText.setBounds(0, 0, 500, 200);
+			instructionText.setFont(customFont);
+			instructionText.setEditable(false);
+			riddleCombatText = new JEditorPane();
+			riddleCombatText.setBounds(0, 0, 500, 200);
+			riddleCombatText.setEditable(false);
+			riddleCombatText.setFont(customFont);
 			centerPanelComponents.add(adventureText);	
-		}
+			centerPanelComponents.add(instructionText);
+			centerPanelComponents.add(riddleCombatText);
+			} 
+			if(LevelExplorer.getIsShop() == true) 
+			{
+				centerPanelComponents = new JPanel();
+				adventureText = new JEditorPane();
+				adventureText.setBounds(0, 0, 500, 200);
+				adventureText.setFont(customFont);
+				adventureText.setEditable(false);
+				adventureText.setText(BeginScreenHandler.theShop.Constructor1);
+				instructionText = new JEditorPane();
+				instructionText.setBounds(0, 0, 500, 200);
+				instructionText.setFont(customFont);
+				instructionText.setEditable(false);
+				
+				riddleCombatText = new JEditorPane();
+				riddleCombatText.setBounds(0, 0, 500, 200);
+				riddleCombatText.setEditable(false);
+				riddleCombatText.setFont(customFont);
+				centerPanelComponents.add(adventureText);	
+				centerPanelComponents.add(instructionText);
+				centerPanelComponents.add(riddleCombatText);
+			}
+		}	
 		
 		private static void createCenterPanelBackground() 
 		{	
@@ -287,7 +339,7 @@ public class GUIView extends GUIController
 //			}
 //			introBackgroundLabel = new JLabel(new ImageIcon(centerBgImage));
 		}
-		
+		  
 		private static void createBottomPanel() 
 		{
 			bottomPanel = new JPanel();
@@ -296,6 +348,7 @@ public class GUIView extends GUIController
 			playerInputField.setText("This is where player input will be");
 			playerInputField.setFont(customFont);
 			enterButton = new JButton("Submit");
+			enterButton.addActionListener(sl);
 			bottomPanel.add(enterButton);
 			bottomPanel.add(playerInputField);
 		}
@@ -304,18 +357,19 @@ public class GUIView extends GUIController
 		{
 			eastPanel = new JPanel();
 			eastPanel.setLayout(new GridLayout(4, 2));
-			ImageIcon icon = new ImageIcon("Images/healthpotion.jpg");
-			invSlot1 = new JLabel(icon);
-			invSlot2 = new JLabel("item2");
+			//removed this to make room for a loot space
+			//ImageIcon icon = new ImageIcon("Images/healthpotion.jpg");
+			invSlot1 = new JLabel(Items.getWeaponStats());//weapon
+			invSlot2 = new JLabel(Items.getArmorStats());//armor
 			invSlot2.setFont(customFont);
-			invSlot3 = new JLabel(Items.armorstatus);//armor
+			invSlot3 = new JLabel(Items.potionName+" Health: " +Items.potionValue);//potion
 			
-			invSlot4 = new JLabel("item4");//weapon
-
-			invSlot5 = new JLabel("item5");
-			invSlot6 = new JLabel("item6");
-			invSlot7 = new JLabel("item7");
-			invSlot8 = new JLabel("coins");
+			invSlot4 = new JLabel(Items.getPlayerLootAt(0));
+		
+			invSlot5 = new JLabel(Items.getPlayerLootAt(1));
+			invSlot6 = new JLabel(Items.getPlayerLootAt(2));
+			invSlot7 = new JLabel(Items.getPlayerLootAt(3));
+			invSlot8 = new JLabel(Items.getPlayerLootAt(4));
 			eastPanel.add(invSlot1);
 			eastPanel.add(invSlot2);
 			eastPanel.add(invSlot3);
@@ -333,18 +387,19 @@ public class GUIView extends GUIController
 			
 			topWestPanel = new JPanel();
 			topWestPanel.setLayout(new GridLayout(5, 1));
+			topWestPanel.setBackground(new Color(143, 184, 201));//makes the west panel the background color
 			playerName = new JLabel(GUIController.player1.getName());
 			playerName.setOpaque(true);
-			playerName.setBackground(Color.blue);
+			
 			playerName.setForeground(Color.black);
-			playerName.setFont(new Font("Serif", Font.ITALIC, 50));
+			playerName.setFont(new Font("Serif", Font.ITALIC, 20));
 			
 			playerHealth = new JLabel("Health: " + GUIController.player1.getHealth());
 			playerArmor = new JLabel("Armor: " + GUIController.player1.getArmor());
-			equippedWeapon = new JLabel("sword_picture.jpg");
-			levelUpProgress = new JProgressBar(1, 10);
+			equippedWeapon = new JLabel("Weapon: " + Items.getWeaponStats());
+			levelUpProgress = new JProgressBar(0, 10);
 			levelUpProgress.setBounds(1, 1, 5, 2);
-			levelUpProgress.setValue(5);
+			levelUpProgress.setValue(GUIController.player1.getExp());
 			topWestPanel.add(playerName);
 			topWestPanel.add(playerHealth);
 			topWestPanel.add(playerArmor);
@@ -354,55 +409,23 @@ public class GUIView extends GUIController
 			
 			bottomWestPanel = new JPanel();
 			bottomWestPanel.setLayout(new GridLayout(2, 2));
-			portrait0 = new JLabel("1");
-			portrait1 = new JLabel("2");
-			portrait2 = new JLabel("3");
-			portrait3 = new JLabel("4");
-//			if(BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(0) != null) 
-//			{
-//				ImageIcon icon1 = BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(0).icon;
-//				portrait1 = new JLabel(icon1);
-//			}
-//			else 
-//			{
-//				portrait1 = new JLabel("null");
-//			}
-			
-			for(int i = 0; i < BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).size() - 1; i++) 
+
+			for(int i = Dungeon.getEnemies(BeginScreenHandler.theDungeon).size() - 1; i > -1; i--) 
 			{
-				if(BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(i) != null) 
-				{
-					ImageIcon icon1 = new ImageIcon(BeginScreenHandler.getEnemies(BeginScreenHandler.theDungeon).get(i).iconPath);
-					ImageIcon icon2 = new ImageIcon("Images/goblin.jpg");
-					JLabel test = new JLabel(icon1);
-					test.setIcon(icon1);
-					bottomWestPanel.add(test);
-				}
-				else 
-				{
-//					portraits[i] = new JLabel("null");
-//					bottomWestPanel.add(portraits[i]);
-				}
+				portraits[i] = new JLabel("Name: " + Dungeon.getEnemyName(Dungeon.getEnemy(BeginScreenHandler.theDungeon, i)) + " \n HP: " + Dungeon.getEnemyHP(Dungeon.getEnemies(BeginScreenHandler.theDungeon).elementAt(i)));
+				bottomWestPanel.add(portraits[i]);
 			}
-			
-			
-			
-			
-			
-//			bottomWestPanel.add(portrait1);
-//			bottomWestPanel.add(portrait2);
-//			bottomWestPanel.add(portrait3);
-//			bottomWestPanel.add(portrait4);
+
 			westPanel.add(bottomWestPanel);	
 		}
-		
+	
 		//////////////////////////////////////////Register Buttons///////////////////////////////////////////////////
 		
 		//register action listener for playerInputField
-		public void registerPlayerInputFieldListener(GUIController.playerInputFieldListener playerInputFieldListener) 
-	    {
-			playerInputField.addActionListener(playerInputFieldListener);
-	    }
+//		public void registerPlayerInputFieldListener(GUIController.playerInputFieldListener playerInputFieldListener) 
+//	    {
+//			playerInputField.addActionListener(playerInputFieldListener);
+//	    }
 		
 		public void registerSubmitListener(GUIController.submitListener submitListener) 
 		{
@@ -410,18 +433,70 @@ public class GUIView extends GUIController
 		}
 		
 		//method to check if input in playerInputField was within accepted range (1-4)
-		public static boolean inputRangeCheck(String input) throws InvalidInputException
+		public static boolean inputRangeCheck(String input, int roomType) throws InvalidInputException
 		{
-			switch(input) 
+			switch(roomType) 
 			{
-				case "1": //Answer question
-					return true;
-				case "2": //Fight enemy
-					return true;
-				case "3": //Use item
-					return true;
+				//case 1 is for dungeons
+				case 1:
+					switch(input) 
+					{
+						case "1": //Answer question
+							return true;
+						case "2": //Fight enemy
+							return true;
+					}
+					
+					return false;
+				//case 2 is for shops
+				case 2:
+					switch(input) 
+					{
+						case "1": //Buy an item
+							return true;
+						case "2": //sell an item
+							return true;
+						case "3": // leave
+							return true;
+					}
+					return false;
+				//case 3 is for bosses
+				case 3:
+					switch(input) 
+					{
+						case "1": //Fight the boss
+							return true;
+					}
+					return false;
+				//case 4 is for when you are answering a trivia question
+				case 4: 
+					switch(input)
+					{
+						case "1":
+							return true;
+						case "2":
+							return true;
+						case "3":
+							return true;
+						case "4":
+							return true;	
+					}
+					return false;
+				//case 5 is for choosing the next room (dungeon or shop)
+				case 5: 
+					switch(input) 
+					{
+						case "1":
+							return true;
+						case "2":
+							return true;
+					}
+					return false;
+						
+					
 			}
-			throw new InvalidInputException("Input must be 1-3");
+			
+			throw new InvalidInputException("Input is out of range");
 		}
 		 
 		public static void main(String[] args) 

@@ -62,10 +62,10 @@ public class Enemy extends Entities{
 	}
 	
 	//empty constructor to create enemies
-	public Enemy()
-	{
-		super();
-	}
+//	public Enemy()
+//	{
+//		super();
+//	}
 	
 	//Parameterized constructor, receives enemy health, damage, name, and level
 	public Enemy(int newEnemyHealth, int newEnemyDamage, String newEnemyName, int newEnemyLevel, int newEnemyArmor, String imgPath)
@@ -95,8 +95,11 @@ public class Enemy extends Entities{
 	static Enemy goblin = new Enemy(1, 1, "goblin", 1, 0, "./Images/goblin.png");
 	static Enemy troll = new Enemy(5, 2, "troll", 1, 0, "./Images/troll.png");
 	static Enemy bandit = new Enemy(4, 3, "bandit", 1, 0, "./Images/goblin.png");
+	static Enemy ghost = new Enemy(2,1,"ghost",1,0,"./Images/goblin.png");
 	static Enemy fireArcher = new Enemy(2, 5, "Fire Archer", 2, 0, "./Images/goblin.png");
-	
+	static Enemy abomination = new Enemy(5, 3, "abomination",3, 0, "./Images/goblin.png" );
+	static Enemy tarnishedKnight = new Enemy(3,3,"tarnished knight", 2, 0,"./Images/goblin.png");
+
 	//required methods
 	@Override
 	public String getHealth()
@@ -108,7 +111,7 @@ public class Enemy extends Entities{
 	@Override
 	public void setHealth(int incoming)
 	{
-		this.enemyHealth += incoming;
+		this.enemyHealth = this.enemyHealth - incoming;
 	}
 
 	@Override
@@ -151,6 +154,25 @@ public class Enemy extends Entities{
 		
 	}
 	
+	@Override
+	public boolean isDead()
+	{
+		int eHealth = Integer.parseInt(this.getHealth());
+		if(eHealth <= 0) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+	
+	public static String getName(Enemy enemy) 
+	{
+		return enemy.enemyName;
+	}
+	
 	//toString method to print enemy object properties
 	@Override
 	public String toString()
@@ -165,6 +187,8 @@ public class Enemy extends Entities{
 		
 		//System.out.println(Trivia.getQuestion(0));	
 	}
+
+
 
 	
 		

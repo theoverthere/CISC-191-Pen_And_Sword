@@ -13,10 +13,10 @@ public class Player extends Entities {
 	private int playerMoney;
 	private int playerLevel;
 	private String playerName = "";
-	public static Player player1 = new Player("Duncan");
+	//public static Player player1 = new Player("Duncan");
  int levelCounter;
 	//data structure to hold items that the player finds on their journey
-	private static List<Items> playerInventory = new ArrayList<>();
+	private String[][] playerInventory = new String[3][1];
 
 	
 	
@@ -26,49 +26,53 @@ public class Player extends Entities {
 		super();
 		this.playerName = newName;
 		this.playerHealth = 10;
-		this.playerDamage = 5;
+		this.playerDamage = 2;
 		this.playerLevel = 1;
 		this.playerExp = 0;
-		this.playerArmor = 5;
+		this.playerArmor = 1;
 		this.playerMoney = 0;
 		this.levelCounter = 0;
 	}
 	
 	public String getName() 
 	{
-		return this.playerName;
+		return GUIController.player1.playerName;
 	}
 
 //gets player health
 	@Override
 	public String getHealth() 
 	{
-		String pHealth = Integer.toString(this.playerHealth);
+		String pHealth = Integer.toString(GUIController.player1.playerHealth);
 		return pHealth;
 	}
-
+  
 //takes or gives player health
 	@Override
 	public void setHealth(int incoming) 
 	{
-		this.playerHealth += incoming;
+		this.playerHealth = GUIController.player1.playerHealth - incoming;
 	}
 
 //gets players EXP
 	public static int getplayerExp(Player player) 
 	{
-		return player.playerExp;
+		return GUIController.player1.playerExp;
+	}
+	//another way to get player exp
+	public static int getExp() {
+		return GUIController.player1.playerExp;
 	}
 
 //adds incoming player exp to player exp
-	public void changePlayerExp(Player player, int newPlayerExp) {
-		player.playerExp += newPlayerExp;
+	public static void changePlayerExp(Player player) {
+		GUIController.player1.playerExp += 1;
 	}
 
 //gets player armor
 	@Override
 	public String getArmor() {
-		String pArmor = Integer.toString(this.playerArmor);
+		String pArmor = Integer.toString(GUIController.player1.playerArmor);
 		return pArmor;
 	}
 
@@ -76,56 +80,134 @@ public class Player extends Entities {
 	@Override
 	public void setArmor(int newArmor) 
 	{ 
-		this.playerArmor = newArmor;
+		GUIController.player1.playerArmor = newArmor;
 	}
 
 //returns player money
 	public static int getPlayerMoney(Player player) {
-		return player.playerMoney;
+		return GUIController.player1.playerMoney;
 	}
 
 //changes player money
 	public void changePlayerMoney(Player player, int newPlayerMoney) 
 	{
-		player.playerMoney += newPlayerMoney;
+		GUIController.player1.playerMoney += newPlayerMoney;
 	}
 
 	// gets player damage
 	@Override
 	public int getDamage() 
 	{
-		return this.playerDamage;
+		return GUIController.player1.playerDamage;
 	}
 
 	// replaces player damage with new player damage
 	@Override
 	public void setDamage(int newDamage) 
 	{ 
-		this.playerDamage += newDamage;
+		GUIController.player1.playerDamage += newDamage;
 	}
 
 	@Override
 	public int getLevel() 
 	{
-		return this.playerLevel;
+		return GUIController.player1.playerLevel;
 	}
 	
 	@Override
 	public void setLevel() 
 	{ 
-		this.playerLevel++;
+		GUIController.player1.playerExp = 0;
+		GUIController.player1.playerLevel++;
 
-	}
-	public void addToInventory(Player player, Items newItem) {
-
-		player.playerInventory.add(newItem);
-	}
-	public void replaceitem(Player player, Items newItem, int placement) 
-	{
-		 player.playerInventory.set(placement, newItem);
 	}
 	
-	public static List<Items> getInventory(Player player) 
+	@Override
+	public boolean isDead()
+	{
+		int pHealth = Integer.parseInt(GUIController.player1.getHealth());
+		if(pHealth <= 0) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+		
+	}
+	
+	public void addWeaponToInventory(Player player, String weapon) 
+	{
+		player.playerInventory[0][0] = weapon;
+	}
+	
+	public void addArmorToInventory(Player player, String armor)
+	{
+		
+		player.playerInventory[0][1] = armor;
+	}
+	
+	public void addPotionToInventory(Player player, String potion) throws IndexOutOfBoundsException
+	{
+		try
+		{
+			for(int i = 0; i <= 1; i++) 
+			{
+				if(player.playerInventory[1][i].isEmpty()) 
+				{
+					player.playerInventory[1][i] = potion;
+				}
+				
+			}
+		}
+		catch(IndexOutOfBoundsException e) 
+		{
+			System.out.println("Your potion slots are full");
+		}
+	}
+	
+	public void addLootToInventory(Player player, String loot) 
+	{
+		for(int i = 2; i < 4; i++) 
+		{
+			for(int j = 0; j <2; j++) 
+			{
+				if(player.playerInventory[i][j].isBlank()) 
+				{
+				player.playerInventory[i][j] = loot;
+				}
+			}
+		}
+		if (player.playerInventory[2][0] != null && player.playerInventory[2][1] != null && player.playerInventory[3][0] != null && player.playerInventory[3][1] != null) 
+		{
+			int[] sortThis = new int[3];
+			String[] comparisonArray = {player.playerInventory[2][0], player.playerInventory[2][1], player.playerInventory[3][0], player.playerInventory[3][1]};
+			
+			for(int i = 0; i < 5; i++) 
+			{
+				int temp = Items.armor.get(loot).intValue();
+				
+				sortThis[i] = temp;
+			}
+			Arrays.sort(sortThis);
+			if(sortThis[3] < Items.armor.get(loot).intValue()) 
+			{
+				player.playerInventory[3][1] = loot;
+			}
+		
+		
+		}
+	}
+	
+
+	
+	public void replaceitem(Player player, String newItem, int x, int y) 
+	{
+		 player.playerInventory[x][y] = newItem;
+	}
+	
+	public static String[][] getInventory(Player player) 
 	{
 		return player.playerInventory;
 	}
@@ -134,6 +216,8 @@ public class Player extends Entities {
 		{
 			//printInventory();
 		}
+
+	
 	}
 
 	

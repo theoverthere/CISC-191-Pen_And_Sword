@@ -45,6 +45,8 @@ abstract class Entities {
 	public abstract String getArmor();
 	
 	public abstract void setArmor(int newArmor);
+	
+	public abstract boolean isDead();
 		
 	}
 	

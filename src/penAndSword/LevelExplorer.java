@@ -1,6 +1,9 @@
 package penAndSword;
 
+import java.util.Random;
 import java.util.Scanner;
+
+import penAndSword.GUIController.BeginScreenHandler;
 
 /*
  * The purpose of this class is to move the player through the games levels and decide what levels (either dungeon, boss, shop, or library)
@@ -8,10 +11,16 @@ import java.util.Scanner;
  */
 public class LevelExplorer
 {
-	private static int currentXP = Player.player1.getLevel();
+	private static int currentXP = GUIController.player1.getLevel();
 	private static int numLevels;
 	private static int finalLevel = 15;
 	private static Dungeon dungeon;
+	private static boolean isDungeon;
+	private static boolean isShop;
+	private static boolean isBoss;
+	private static boolean isLevelChooser;
+	private static Store newStore;
+	
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -29,58 +38,90 @@ public class LevelExplorer
 	
 	public static void levelChooser(int input)
 	{
+		isDungeon = false;
+		isShop = false;
+		isBoss = false;
+		isLevelChooser = true;
 		switch(input) 
 		{
 			case 1:
-				nextLevel();
-//			case 2:
-//				nextShop();
+				BeginScreenHandler.newDungeon();
+			case 2:
+				BeginScreenHandler.newShop();
 		}
 	}
 	
 	/*
-	 * Purpose: the nextLevel method will take in input from the player and check the players level to 
+	 * Purpose: the nextLevel method will take input from the player and check the players level to 
 	 * determine which type of level will be loaded next
 	 * 
 	 * @param: int input
 	 */
 	public static Dungeon nextLevel()
 	{
-		if(Player.player1.levelCounter == 0) 
+		if(GUIController.player1.levelCounter == 0) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = true;
+			isShop = false;
+			isBoss = false;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			dungeon = Dungeon.dungeonLevel(currentXP);	
 		}
-		if(Player.player1.levelCounter > 1 && Player.player1.levelCounter < 5) 
+		if(GUIController.player1.levelCounter > 1 && GUIController.player1.levelCounter < 5) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = true;
+			isShop = false;
+			isBoss = false;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			dungeon = Dungeon.dungeonLevel(currentXP);					
 		}
-		if(Player.player1.levelCounter == 5) 
+		if(GUIController.player1.levelCounter == 5) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = false;
+			isShop = false;
+			isBoss = true;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			Dungeon.bossLevel(currentXP);
 		}
-		if(Player.player1.levelCounter > 5 && Player.player1.levelCounter < 10) 
+		if(GUIController.player1.levelCounter > 5 && GUIController.player1.levelCounter < 10) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = true;
+			isShop = false;
+			isBoss = false;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			System.out.println("level 5 - 10");
 			Dungeon.dungeonLevel(currentXP);				
 		}
-		if(Player.player1.levelCounter == 10) 
+		if(GUIController.player1.levelCounter == 10) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = false;
+			isShop = false;
+			isBoss = true;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			Dungeon.bossLevel(currentXP);
 		}
-		if(Player.player1.levelCounter > 10 && Player.player1.levelCounter < 15) 
+		if(GUIController.player1.levelCounter > 10 && GUIController.player1.levelCounter < 15) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = true;
+			isShop = false;
+			isBoss = false;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			System.out.println("level 10 - 15");
 			Dungeon.dungeonLevel(currentXP);		
 		}
-		if(Player.player1.levelCounter == 15) 
+		if(GUIController.player1.levelCounter == 15) 
 		{
-			Player.player1.levelCounter++;
+			isDungeon = false;
+			isShop = false;
+			isBoss = true;
+			isLevelChooser = false;
+			GUIController.player1.levelCounter++;
 			Dungeon.bossLevel(currentXP);
 		}
 		
@@ -89,12 +130,41 @@ public class LevelExplorer
 			//Dungeon.gameOver();
 		}
 		return dungeon;
-		}
+	}
 	
-//	public static Shop nextShop()
-//	{
-//		return populateShop();
-//	}
+	public static Store nextShop()
+	{
+		isDungeon = false;
+		isShop = true;
+		isBoss = false;
+		isLevelChooser = false;
+		return newStore = new Store();
+	}
+	
+	public static boolean getIsShop() 
+	{
+		return isShop;
+	}
+	
+	public static boolean getIsDungeon() 
+	{
+		return isDungeon;
+	}
+	
+	public static boolean getIsBoss() 
+	{
+		return isBoss;
+	}
+	public static void setIsLevelChooser(boolean yesnt) 
+	{
+		isLevelChooser = yesnt;
+	}
+	public static boolean getIsLevelChooser() 
+	{
+		return isLevelChooser;
+	}
+	
+	
 	
 	
 	

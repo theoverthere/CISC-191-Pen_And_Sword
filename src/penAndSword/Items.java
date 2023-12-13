@@ -2,13 +2,12 @@ package penAndSword;
 
 import java.util.*;
 public class Items{
-
 	
 	public static int damageValue = 0;
-	public static String weaponName = "nothing";
+	public static String weaponName = "No weapon";
 	private int healthValue;
 	public static int armorValue = 0;
-	public static String armorName = "nothing";
+	public static String armorName = "No armor";
 	public static int purse;
 	private static int EXP;
 	public static boolean backToStore = false;
@@ -16,12 +15,15 @@ public class Items{
 	public String price1;
 	static String loot;
 	static int lootValue;
-	// strings to hold loot name in 7 slots
-	static ArrayList inventoryLootString = new ArrayList();
-
+	// strings to hold loot name in 5 slots
+	static ArrayList inventoryLootString = new ArrayList(5);
+    
 	// integers to hold monetary values
-	static ArrayList inventoryLootValue = new ArrayList();
-	
+	static ArrayList inventoryLootValue = new ArrayList(5);
+	//itegers to show potion you have 
+	static int potionValue=0;
+	//queue to show the names of the potions
+	static String potionName="No Potion";
 	
 	 static Queue<String> armorQueueName = new LinkedList<>();
 	
@@ -30,7 +32,7 @@ public static void equipArmor(int value, String name) {
 		armorValue = value;
 		armorName = name;
 		
-		Player.player1.setArmor(value);
+		GUIController.player1.setArmor(value);
 		//something wrong here
 		armorQueueName.poll();
 		armorQueueName.add(name);
@@ -40,21 +42,21 @@ public static void armorStatus() {
 	System.out.println("++++++++++++++++++++++++");
 	System.out.println("equipped armor value: "+armorValue);
 	System.out.println("equipped armor name: " +armorName);}
-	public static int getArmorStats() {
-		return armorName+" "+armorValue;
+	public static String getArmorStats() {
+		return armorName+" protection: "+armorValue;
 	}
 public static void equipTheWeapon(int value, String name) {
 	damageValue = value;
 	weaponName = name;
 	
-	Player.player1.setDamage(value);
+	GUIController.player1.setDamage(value);
 }
 public static void weaponStatus() {
 	System.out.println("++++++++++++++++++++++++");
 	System.out.println("equipped weapon damage: "+damageValue);
 	System.out.println("equipped weapon name: " +weaponName);}
-	public static int getWeaponStats() {
-		return damageValue;
+	public static String getWeaponStats() {
+		return weaponName+" Damage: "+damageValue;
 	}
 	 //string is the name and key, interger is the damage value or the armor value
 		public static HashMap<String, Integer> armor = new HashMap<>();
@@ -132,6 +134,13 @@ public static void weaponStatus() {
 		// String output = (String) key; //for the string like "copper Broadsword"
 		// Integer output = armor.get(key); //for the integer like "3"
 		return output;}
+		
+		public static String getOnePotion() {
+		
+		if (GUIController.player1.getLevel() > 10) {
+			return "Tasty Health Potion :: Health 8 :: Price 10";
+		}else return "Standard Health Potion:: Health 4 ::Price 5";
+	}
 	public static void main(String[] args) {
 		
 
@@ -217,7 +226,7 @@ public static void weaponStatus() {
 		if (poorCoins.isEmpty()) {
 			throw new IllegalArgumentException("HashMap is empty");
 		}
-		if (Player.player1.getLevel() >= 1) {
+		if (GUIController.player1.getLevel() >= 1) {
 			int lootIndex = (int) (Math.random() * 5);
 
 			Object[] getLoot = poorCoins.keySet().toArray();
@@ -257,7 +266,7 @@ public static void weaponStatus() {
 			System.out.println("loot: " + inventoryLootString.get(i) + " worth: " + inventoryLootValue.get(i));
 		}
 	}
-
+	
 	public static String getPlayerToString() {// returns a tostring version of the loot
 		String Ret = inventoryLootString.toString();
 		return Ret;
@@ -267,9 +276,45 @@ public static void weaponStatus() {
 		String nothing = "nothing";
 		if (inventoryLootString.get(i) == null) {// major problem cant call an index if there is nothing at the index
 			return nothing;
-		}
+		}else {
 		String Val1 = (String) inventoryLootString.get(i);
 		int val2 = (int) inventoryLootValue.get(i);
 		return "loot: " + Val1 + " worth: " + val2 + " coin(s).";
+		}
 	}
+	public static void printPlayerLoot() { 
+		for (int i=0; i<inventoryLootString.size(); i++) {
+			
+			 System.out.println(inventoryLootString.get(i));
+			 System.out.print("Worth: " + inventoryLootValue.get(i)+"Coin(s)");
+		}
+		
+		
+	}
+	public static void addPotion(String name, int healthValue) {
+		if (potionName ==null &&potionValue ==0) {
+			potionName=name;
+			potionValue=healthValue;
+		}
+		
+		
+		
+	}
+	public static String usePotion() {
+		if (potionName !=null &&potionValue !=0) {
+		GUIController.player1.setHealth(getPotionValue());
+		potionName=null;
+		potionValue=0;
+		return "potion used";
+		}else {
+			return "No health Potion";
+		}
+	
+}
+public static int getPotionValue() {
+			return potionValue;
+		}
+		public static String getPotion() {
+			return potionName+" Health: " +potionValue;
+		}
 }
